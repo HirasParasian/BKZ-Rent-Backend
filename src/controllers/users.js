@@ -1,21 +1,21 @@
-const vehicleModel = require("../models/vehicles")
+const usersModel = require("../models/users")
 
 
-const readVehicles = (req, res) => {
-    vehicleModel.readVehicles(results => {
+const readUsers = (req, res) => {
+    usersModel.readUsers(results => {
         return res.status(200).json({
             success: true,
-            message: "List Vehicles",
+            message: "List Users",
             results: results
         })
     })
 }
 
-const searchVehicles = (req, res) => {
+const searchUsers = (req, res) => {
     const {
-        vehicle_id
+        users_id
     } = req.params
-    vehicleModel.searchVehicles(vehicle_id, results => {
+    usersModel.searchUsers(users_id, results => {
         if (results.length > 0) {
             return res.json({
                 success: true,
@@ -32,11 +32,11 @@ const searchVehicles = (req, res) => {
     })
 }
 
-const createVehicles = (req, res) => {
+const createUsers = (req, res) => {
     const newData = {
         ...req.body
     }
-    vehicleModel.createVehicles(newData, results => {
+    usersModel.createUsers(newData, results => {
         if (results) {
             return res.json({
                 success: true,
@@ -52,12 +52,12 @@ const createVehicles = (req, res) => {
     })
 }
 
-const updateVehicles = (req, res) => {
+const updateUsers = (req, res) => {
     const update = {
         ...req.body
     }
-    const {vehicle_id} = req.params
-    vehicleModel.updateVehicles(update, vehicle_id, results => {
+    const {user_id} = req.params
+    usersModel.updateUsers(update, user_id, results => {
         if(results.changedRows>0) {
             return res.json({
                 success: true,
@@ -72,9 +72,9 @@ const updateVehicles = (req, res) => {
     })
 }
 
-const deleteVehicles = (req, res) => {
-    const {vehicle_id} = req.params
-    vehicleModel.deleteVehicles(vehicle_id, results => { 
+const deleteUsers = (req, res) => {
+    const {user_id} = req.params
+    usersModel.deleteUsers(user_id, results => { 
         if(results.affectedRows == 1) {
             return res.json({
                 success: true,
@@ -83,16 +83,16 @@ const deleteVehicles = (req, res) => {
         } else {
             return res.status(404).json({
                 success: false,
-                message: "Data not found"
+                message: "User not found"
             })
         }
     })
 }
 
 module.exports = {
-    readVehicles,
-    searchVehicles,
-    createVehicles,
-    updateVehicles,
-    deleteVehicles
+    readUsers,
+    searchUsers,
+    createUsers,
+    updateUsers,
+    deleteUsers
 }
