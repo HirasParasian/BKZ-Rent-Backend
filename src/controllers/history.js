@@ -1,26 +1,26 @@
-const vehicleModel = require("../models/vehicles")
+const historyModel = require("../models/history")
 
 
-const readVehicles = (req, res) => {
-    vehicleModel.readVehicles(results => {
+const readHistory = (req, res) => {
+    historyModel.readHistory(results => {
         return res.status(200).json({
             success: true,
-            message: "List Vehicles",
+            message: "List Users",
             results: results
         })
     })
 }
 
-const searchVehicles = (req, res) => {
+const searchHistory = (req, res) => {
     const {
-        vehicle_id
+        history_id
     } = req.params
-    vehicleModel.searchVehicles(vehicle_id, results => {
+    historyModel.searchHistory(history_id, results => {
         if (results.length > 0) {
             return res.json({
                 success: true,
                 message: "Detail Vehicle",
-                results: results,
+                results: results[0],
                 
             })
         } else {
@@ -32,19 +32,19 @@ const searchVehicles = (req, res) => {
     })
 }
 
-const createVehicles = (req, res) => {
+const createHistory = (req, res) => {
     const newData = {
         ...req.body
     }
-    vehicleModel.createVehicles(newData, results => {
+    historyModel.createHistory(newData, results => {
         if (results) {
-            return res.status(201).json({
+            return res.json({
                 success: true,
                 message: "Success Insert Vehicle",
                 data: newData
             })
         } else {
-            return res.status(500).json({
+            return res.status(201).json({
                 success: false,
                 message: "Failed Insert Vehicle"
             })
@@ -52,47 +52,47 @@ const createVehicles = (req, res) => {
     })
 }
 
-const updateVehicles = (req, res) => {
+const updateHistory = (req, res) => {
     const update = {
         ...req.body
     }
-    const {vehicle_id} = req.params
-    vehicleModel.updateVehicles(update, vehicle_id, results => {
+    const {history_id} = req.params
+    historyModel.updateHistory(update, history_id, results => {
         if(results.changedRows>0) {
-            return res.status(200).json({
+            return res.json({
                 success: true,
                 message: "Edited Succesfully"
             })
         } else {
             return res.status(404).json({
                 success: false,
-                message: "Data Not Found"
+                message: "Edited Failed"
             })
         } 
     })
 }
 
-const deleteVehicles = (req, res) => {
-    const {vehicle_id} = req.params
-    vehicleModel.deleteVehicles(vehicle_id, results => { 
+const deleteHistory = (req, res) => {
+    const {history_id} = req.params
+    historyModel.deleteHistory(history_id, results => { 
         if(results.affectedRows == 1) {
-            return res.status(200).json({
+            return res.json({
                 success: true,
                 message: "Deleted Successfully"
             })
         } else {
             return res.status(404).json({
                 success: false,
-                message: "Data not found"
+                message: "User not found"
             })
         }
     })
 }
 
 module.exports = {
-    readVehicles,
-    searchVehicles,
-    createVehicles,
-    updateVehicles,
-    deleteVehicles
+    readHistory,
+    searchHistory,
+    createHistory,
+    updateHistory,
+    deleteHistory
 }
