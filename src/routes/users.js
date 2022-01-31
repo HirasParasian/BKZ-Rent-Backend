@@ -8,7 +8,7 @@ const { readUsers,
 } = require("../controllers/users")
 
 users.get("/", readUsers)
-users.get("/:users_id", searchUsers)
+users.get("/:displayName", searchUsers)
 users.post("/create", createUsers)
 users.patch("/update/:user_id", updateUsers)
 users.delete("/delete/:user_id", deleteUsers)

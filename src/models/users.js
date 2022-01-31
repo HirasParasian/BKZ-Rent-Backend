@@ -7,8 +7,8 @@ exports.readUsers = (cb) => {
     })
 }
 
-exports.searchUsers = (user_id, cb) => {
-    db.query("SELECT * FROM users WHERE user_id=?", [user_id], (err, res) => {
+exports.searchUsers = (displayName, cb) => {
+    db.query("SELECT * FROM users WHERE displayName=?", [displayName], (err, res) => {
         if (err) throw err
         cb(res)
     })

@@ -13,9 +13,9 @@ const readUsers = (req, res) => {
 
 const searchUsers = (req, res) => {
     const {
-        users_id
+        displayName
     } = req.params
-    usersModel.searchUsers(users_id, results => {
+    usersModel.searchUsers(displayName, results => {
         if (results.length > 0) {
             return res.json({
                 success: true,
