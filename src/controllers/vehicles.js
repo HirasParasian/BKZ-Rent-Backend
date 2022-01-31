@@ -38,13 +38,13 @@ const createVehicles = (req, res) => {
     }
     vehicleModel.createVehicles(newData, results => {
         if (results) {
-            return res.json({
+            return res.status(201).json({
                 success: true,
                 message: "Success Insert Vehicle",
                 data: newData
             })
         } else {
-            return res.status(201).json({
+            return res.status(500).json({
                 success: false,
                 message: "Failed Insert Vehicle"
             })
@@ -59,14 +59,14 @@ const updateVehicles = (req, res) => {
     const {vehicle_id} = req.params
     vehicleModel.updateVehicles(update, vehicle_id, results => {
         if(results.changedRows>0) {
-            return res.json({
+            return res.status(200).json({
                 success: true,
                 message: "Edited Succesfully"
             })
         } else {
             return res.status(404).json({
                 success: false,
-                message: "Edited Failed"
+                message: "Data Not Found"
             })
         } 
     })
@@ -76,7 +76,7 @@ const deleteVehicles = (req, res) => {
     const {vehicle_id} = req.params
     vehicleModel.deleteVehicles(vehicle_id, results => { 
         if(results.affectedRows == 1) {
-            return res.json({
+            return res.status(200).json({
                 success: true,
                 message: "Deleted Successfully"
             })
