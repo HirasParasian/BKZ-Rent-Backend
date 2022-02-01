@@ -2,12 +2,19 @@ const vehicleModel = require("../models/vehicles")
 
 
 const readVehicles = (req, res) => {
-    const { search } = req.query
-    vehicleModel.readVehicles(search,(results) => {
+    let { search, page, limit } = req.query
+    search = search || ""
+    page = Number(page) || 1
+    limit = Number(limit) || 5
+    let offset = (page -1) * limit 
+    const data = { search, limit, offset }
+    vehicleModel.readVehicles(data,(results) => {
         return res.status(200).json({
             success: true,
             message: "List Vehicles",
             results: results
+            // prev:null,
+            // next: ""
         })
     })
 }
