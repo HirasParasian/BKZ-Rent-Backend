@@ -1,14 +1,14 @@
 const db = require("../helpers/db")
 
-exports.readVehicles = (cb) => {
-    db.query("SELECT * FROM vehicles", (err, res) => {
+exports.readVehicles = (search = "",cb) => {
+    db.query(`SELECT vehicle_id,name,price,description,location,category,stock,image FROM vehicles WHERE name LIKE "${ search }%"`, (err, res) => {
         if (err) throw err
         cb(res)
     })
 }
 
-exports.searchVehicles = (vehicle_id, cb) => {
-    db.query("SELECT * FROM vehicles WHERE vehicle_id=?", [vehicle_id], (err, res) => {
+exports.searchVehicles = (search = "", cb) => {
+    db.query(`SELECT vehicle_id,name,price,description,location,category,stock,image FROM vehicles WHERE name LIKE "${ search }%"`, (err, res) => {
         if (err) throw err
         cb(res)
     })
@@ -30,6 +30,13 @@ exports.updateVehicles = ( data, vehicle_id, cb) => {
 
 exports.deleteVehicles = (vehicle_id, cb) => {
     db.query("DELETE FROM vehicles WHERE vehicle_id=?", [vehicle_id], (err, res) => {
+        if (err) throw err
+        cb(res)
+    })
+}
+
+exports.popularVehicles = (search = "",cb) => {
+    db.query(`SELECT * FROM vehicles WHERE name LIKE "${ search }%" ORDER by rent_count  DESC `, (err, res) => {
         if (err) throw err
         cb(res)
     })

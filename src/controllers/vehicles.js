@@ -2,7 +2,8 @@ const vehicleModel = require("../models/vehicles")
 
 
 const readVehicles = (req, res) => {
-    vehicleModel.readVehicles(results => {
+    const { search } = req.query
+    vehicleModel.readVehicles(search,(results) => {
         return res.status(200).json({
             success: true,
             message: "List Vehicles",
@@ -12,10 +13,8 @@ const readVehicles = (req, res) => {
 }
 
 const searchVehicles = (req, res) => {
-    const {
-        vehicle_id
-    } = req.params
-    vehicleModel.searchVehicles(vehicle_id, results => {
+    const { search } = req.query
+    vehicleModel.searchVehicles(search, results => {
         if (results.length > 0) {
             return res.json({
                 success: true,
@@ -89,10 +88,22 @@ const deleteVehicles = (req, res) => {
     })
 }
 
+const popularVehicles = (req, res) => {
+    const { search } = req.query
+    vehicleModel.popularVehicles(search, results => {
+        return res.status(200).json({
+            success: true,
+            message: "List Popular",
+            results: results
+        })
+    })
+}
+
 module.exports = {
     readVehicles,
     searchVehicles,
     createVehicles,
     updateVehicles,
-    deleteVehicles
+    deleteVehicles,
+    popularVehicles
 }
