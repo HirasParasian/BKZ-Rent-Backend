@@ -1,6 +1,5 @@
 const vehicleModel = require("../models/vehicles")
 
-
 const readVehicles = (req, res) => {
     let { search, page, limit } = req.query
     search = search || ""
@@ -8,13 +7,24 @@ const readVehicles = (req, res) => {
     limit = Number(limit) || 5
     let offset = (page -1) * limit 
     const data = { search, limit, offset }
-    vehicleModel.readVehicles(data,(results) => {
-        return res.status(200).json({
-            success: true,
-            message: "List Vehicles",
-            results: results
-            // prev:null,
-            // next: ""
+
+    vehicleModel.readVehicles(data,(results)=>{
+        vehicleModel.countVehicles(data,(count)=>{
+            const {total} = count[0]
+            const last = Math.ceil(total /limit)
+            return res.status(200).json({
+                success: true,
+                message: "List Vehicles",
+                results: results,
+                pageInfo:{
+                    prev: page > 1 ? `http://localhost:5000/vehicles?page=${page-1}`: null,
+                    next: page < last ? `http://localhost:5000/vehicles?page=${page+1}`: null ,
+                    totalData : total,
+                    currentPage : page,
+                    lastPage : last
+                }
+
+            })
         })
     })
 }
