@@ -12,18 +12,23 @@ const readVehicles = (req, res) => {
         vehicleModel.countVehicles(data,(count)=>{
             const {total} = count[0]
             const last = Math.ceil(total /limit)
-            return res.status(200).json({
-                success: true,
-                message: "List Vehicles",
-                results: results,
-                pageInfo:{
-                    prev: page > 1 ? `http://localhost:5000/vehicles?page=${page-1}`: null,
-                    next: page < last ? `http://localhost:5000/vehicles?page=${page+1}`: null ,
-                    totalData : total,
-                    currentPage : page,
-                    lastPage : last
-                }
-
+            if (results.length > 0){
+                return res.status(200).json({
+                    success: true,
+                    message: "List Vehicles",
+                    results: results,
+                    pageInfo:{
+                        prev: page > 1 ? `http://localhost:5000/vehicles?page=${page-1}`: null,
+                        next: page < last ? `http://localhost:5000/vehicles?page=${page+1}`: null ,
+                        totalData : total,
+                        currentPage : page,
+                        lastPage : last
+                    }
+                })
+            }
+            return res.status(404).json({
+                success: false,
+                message: "List not found"
             })
         })
     })
@@ -49,26 +54,79 @@ const searchVehicles = (req, res) => {
 }
 
 const createVehicles = (req, res) => {
+    const price = Number(req.body.price) || null
+    const stock = Number(req.body.stock) || null
+    if (!price && !stock){
+        return  res.send({
+            success : false,
+            message : "invalid input price and stock"
+        })
+    }
+    if (!price){
+        return  res.send({
+            success : false,
+            message : "invalid input price"
+        })
+    }
+    if (!stock){
+        return  res.send({
+            success : false,
+            message : "invalid input stock"
+        })
+    }
     const newData = {
         ...req.body
     }
-    vehicleModel.createVehicles(newData, results => {
-        if (results) {
-            return res.status(201).json({
-                success: true,
-                message: "Success Insert Vehicle",
-                data: newData
-            })
-        } else {
-            return res.status(500).json({
-                success: false,
-                message: "Failed Insert Vehicle"
+    vehicleModel.getName(newData, results =>{
+        if (results.length < 1){
+            vehicleModel.insertVehicle(newData, (results =>{
+                if(results.affectedRows == 1){ 
+                    vehicleModel.readVehicles(results => {
+                        return res.send({
+                            success : true,
+                            messages : "Input data vehicle success!",
+                            results : results
+                        })
+                    })
+                }else{
+                    return res.status(500).send({
+                        success : false,
+                        message : "Input data vehicle failed!"
+                    })
+                }
+            }))
+        }else{
+            return res.status(400).send({
+                success : false,
+                message : "Data has already inserted!"
             })
         }
     })
 }
 
+
+
 const updateVehicles = (req, res) => {
+    const price = Number(req.body.price) || null
+    const stock = Number(req.body.stock) || null
+    if (!price && !stock){
+        return  res.send({
+            success : false,
+            message : "invalid input price and stock"
+        })
+    }
+    if (!price){
+        return  res.send({
+            success : false,
+            message : "invalid input price"
+        })
+    }
+    if (!stock){
+        return  res.send({
+            success : false,
+            message : "invalid input stock"
+        })
+    }
     const update = {
         ...req.body
     }
@@ -124,3 +182,4 @@ module.exports = {
     deleteVehicles,
     popularVehicles
 }
+

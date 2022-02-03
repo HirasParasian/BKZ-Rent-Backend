@@ -48,3 +48,11 @@ exports.popularVehicles = (search = "",cb) => {
         cb(res)
     })
 }
+
+exports.getName = (data,  cb) => {
+    db.query("select name,location from vehicles where name=?" , [data.name,data.location], (err, res) => {
+        if (err) throw err
+        cb(res)
+    })
+    return(db)
+}
