@@ -1,51 +1,27 @@
+exports.validateVehicles = (data) => {
+    var result = ""
+    const { name, category, price, location, stock, image, isAvailable } = data
+    if (name == null || name == "") {
+        result = { name: "Invalid Input Name" }
+    }
+    if (price == null || price == "" || (isNaN(Number(price)))) {
+        result = {...result, price: "Invalid Input price" }
+    }
+    if (location == null || location == "") {
+        result = {...result, location: "Invalid Input Location" }
+    }
+    if (category == null || category == "" || category < 1 || category > 3) {
+        result = {...result, category_id: "Invalid Input Category ID" }
+    }
+    if (isAvailable == null || isAvailable == "" || isAvailable >1 || isAvailable < 0) {
+        result = {...result, isAvailable: "Invalid Input isAvailable" }
+    }
+    if (stock == null || stock == "" || (isNaN(Number(stock)))) {
+        result = {...result, stock: "Invalid Input stock" }
+    }
+    if (image == null || image == "" ) {
+        result = {...result, image: "Invalid Input image" }
+    }
 
-exports.vehiclesValid = (data) => {
-    const error = ""
-
-    if (data.name === undefined || data.name.length === 0) {
-        error.push("Wrong Name")
-    }
-    if (data.name.length > 80) {
-        error.push("Name is to long")
-    }
-
-    if (data.description === undefined || data.description.length === 0) {
-        error.push("Wrong Description")
-    } else if (data.description.length > 30) {
-        error.push("Description is to long")
-    }
-
-    if (data.location === undefined || data.location.length === 0) {
-        error.push("Wrong Location")
-    } else if (data.location.length > 100) {
-        error.push("Location is to long")
-    }
-
-    if (data.stock === undefined|| data.stock !== "number") {
-        error.push("Wrong Stock Input")
-    }
-    if (data.price === undefined|| data.price !== "number") {
-        error.push("Wrong Stock price")
-    }
-    return error
+    return result
 }
-
-function validVehicles (req,res){
-    const price = Number(req.body.price) || null
-    const stock = Number(req.body.price) || null
-    if (!price){
-        return  res.send({
-            success : false,
-            message : "invalid input price"
-        })
-    }
-    if (!stock){
-        return  res.send({
-            success : false,
-            message : "invalid input stock"
-        })
-    }
-}
-
-
-module.exports = {validVehicles}

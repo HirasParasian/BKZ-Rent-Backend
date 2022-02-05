@@ -1,4 +1,5 @@
 const vehicleModel = require("../models/vehicles")
+const validate = require("../helpers/validate")
 
 const readVehicles = (req, res) => {
     let { search, page, limit } = req.query
@@ -54,79 +55,43 @@ const searchVehicles = (req, res) => {
 }
 
 const createVehicles = (req, res) => {
-    const price = Number(req.body.price) || null
-    const stock = Number(req.body.stock) || null
-    if (!price && !stock){
-        return  res.send({
-            success : false,
-            message : "invalid input price and stock"
-        })
-    }
-    if (!price){
-        return  res.send({
-            success : false,
-            message : "invalid input price"
-        })
-    }
-    if (!stock){
-        return  res.send({
-            success : false,
-            message : "invalid input stock"
-        })
-    }
     const newData = {
         ...req.body
     }
-    vehicleModel.getName(newData, results =>{
-        if (results.length < 1){
-            vehicleModel.insertVehicle(newData, (results =>{
-                if(results.affectedRows == 1){ 
-                    vehicleModel.readVehicles(results => {
-                        return res.send({
-                            success : true,
-                            messages : "Input data vehicle success!",
-                            results : results
+    if (validate.validateVehicles(newData) == "") {
+        vehicleModel.getName(newData.name, (result) => {
+            if (result.length == 0) {
+                vehicleModel.createVehicles(newData, (results) => {
+                    if (results.affectedRows > 0) {
+                        return res.json({
+                            success: true,
+                            message: "Data Vehicle created successfully.",
+                            results: newData
                         })
-                    })
-                }else{
-                    return res.status(500).send({
-                        success : false,
-                        message : "Input data vehicle failed!"
-                    })
-                }
-            }))
-        }else{
-            return res.status(400).send({
-                success : false,
-                message : "Data has already inserted!"
-            })
-        }
-    })
+                    } else {
+                        return res.status(500).json({
+                            success: false,
+                            message: "Data Vehicle failed to create."
+                        })
+                    }
+                })
+            } else {
+                return res.status(400).json({
+                    success: false,
+                    message: "Name has already used."
+                })
+            }
+        })
+    } else {
+        return res.status(400).json({
+            success: false,
+            message: "Data Vehicle was not valid.",
+            error: validate.validateVehicles(newData)
+        })
+    }
 }
 
-
-
 const updateVehicles = (req, res) => {
-    const price = Number(req.body.price) || null
-    const stock = Number(req.body.stock) || null
-    if (!price && !stock){
-        return  res.send({
-            success : false,
-            message : "invalid input price and stock"
-        })
-    }
-    if (!price){
-        return  res.send({
-            success : false,
-            message : "invalid input price"
-        })
-    }
-    if (!stock){
-        return  res.send({
-            success : false,
-            message : "invalid input stock"
-        })
-    }
     const update = {
         ...req.body
     }
@@ -135,12 +100,14 @@ const updateVehicles = (req, res) => {
         if(results.changedRows>0) {
             return res.status(200).json({
                 success: true,
-                message: "Edited Succesfully"
+                message: "Edited Succesfully",
+                results
             })
         } else {
             return res.status(404).json({
                 success: false,
-                message: "Data Not Found"
+                message: "Data Not Found",
+                results
             })
         } 
     })
@@ -165,12 +132,14 @@ const deleteVehicles = (req, res) => {
 
 const popularVehicles = (req, res) => {
     const { search } = req.query
-    vehicleModel.popularVehicles(search, results => {
-        return res.status(200).json({
-            success: true,
-            message: "List Popular",
-            results: results
-        })
+    vehicleModel.popularVehicles(search, result => {
+        if (result.length > 0) {
+            return res.json({
+                success: true,
+                message: "List Popular Vehicle",
+                results: result
+            })
+        }
     })
 }
 

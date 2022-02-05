@@ -14,12 +14,13 @@ exports.readVehicles = (data,cb) => {
     })
 }
 
-exports.searchVehicles = (data, cb) => {
-    db.query(`SELECT vehicle_id,name,price,description,location,category,stock,image FROM vehicles WHERE name LIKE "${ data.search }%"`, (err, res) => {
+exports.searchVehicles = (vehicle_id, cb) => {
+    db.query("select * FROM vehicles WHERE vehicle_id=?", [vehicle_id], (err, res) => {
         if (err) throw err
         cb(res)
     })
 }
+
 
 exports.createVehicles = (data,cb) => {
     db.query("INSERT INTO vehicles SET ?",[data], (err, res) => {
@@ -43,16 +44,17 @@ exports.deleteVehicles = (vehicle_id, cb) => {
 }
 
 exports.popularVehicles = (search = "",cb) => {
-    db.query(`SELECT * FROM vehicles WHERE name LIKE "${ search }%" ORDER by rent_count  DESC `, (err, res) => {
+    db.query(`SELECT v.vehicle_id,v.name,v.location, count(*) as total FROM history h join vehicles v WHERE name LIKE "${ search }%" AND v.vehicle_id = h.vehicle_id group by h.vehicle_id `, (error, res) => {
+        if (error) throw error
+        cb(res)
+    })
+}
+
+exports.getName = (name,  cb) => {
+    db.query("select name,location from vehicles where name=?" , [name], (err, res) => {
         if (err) throw err
         cb(res)
     })
 }
 
-exports.getName = (data,  cb) => {
-    db.query("select name,location from vehicles where name=?" , [data.name,data.location], (err, res) => {
-        if (err) throw err
-        cb(res)
-    })
-    return(db)
-}
+
