@@ -5,7 +5,9 @@ const { readVehicles,
     createVehicles,
     updateVehicles,
     deleteVehicles,
-    popularVehicles
+    popularVehicles,
+    popularInTownVehicles,
+    newVehiclesinWeek
 } = require("../controllers/vehicles")
 
 vehicles.get("/", readVehicles)
@@ -14,6 +16,8 @@ vehicles.post("/", createVehicles)
 vehicles.patch("/:vehicle_id", updateVehicles)
 vehicles.delete("/:vehicle_id", deleteVehicles)
 vehicles.get("/popular", popularVehicles)
+vehicles.get("/popularintown", popularInTownVehicles)
+vehicles.get("/lastweekvehicles", newVehiclesinWeek)
 
 
 module.exports = vehicles
