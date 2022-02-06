@@ -165,11 +165,45 @@ const deleteHistory = (req, res) => {
     }
 }
 
+const readHistorybyName = (req, res) => {
+    let { search, page, limit } = req.query
+    search = search || ""
+    page = Number(page) || 1
+    limit = Number(limit) || 5
+    let offset = (page -1) * limit 
+    const data = { search, limit, offset }
+
+    historyModel.readHistoryByName(data,(results)=>{
+        historyModel.countHistoryByName(data,(count)=>{
+            const {total} = count[0]
+            const last = Math.ceil(total /limit)
+            if (results.length > 0){
+                return res.status(200).json({
+                    success: true,
+                    message: "List History",
+                    results,
+                    pageInfo:{
+                        prev: page > 1 ? `http://localhost:5000/vehicles?page=${page-1}`: null,
+                        next: page < last ? `http://localhost:5000/vehicles?page=${page+1}`: null ,
+                        totalData : total,
+                        currentPage : page,
+                        lastPage : last
+                    }
+                })
+            }
+            return res.status(404).json({
+                success: false,
+                message: "List not found"
+            })
+        })
+    })
+}
 
 module.exports = {
     readHistory,
     searchHistory,
     createHistory,
     updateHistory,
-    deleteHistory
+    deleteHistory,
+    readHistorybyName
 }

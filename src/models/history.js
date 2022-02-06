@@ -58,3 +58,23 @@ exports.deleteHistory = (history_id, cb) => {
     })
 }
 
+exports.readHistoryByName = (data,cb) => {
+    const query = db.query(`SELECT h.history_id,v.name AS vehicle,c.name AS category,v.price AS price,h.rentStartDate,h.rentEndDate,
+              DATEDIFF(h.rentEndDate, h.rentStartDate)AS days ,v.price * DATEDIFF(h.rentEndDate, h.rentStartDate) AS totalPrice 
+              FROM history h JOIN users u on h.user_id = u.user_id JOIN vehicles v on h.vehicle_id = v.vehicle_id 
+              JOIN category c on v.category = c.category_id WHERE u.fullName LIKE "%${ data.search }%" ORDER by h.history_id 
+              LIMIT ${data.limit} OFFSET ${data.offset}  `, (err, res) => {
+        if (err) throw err
+        cb(res)
+    })
+    console.log(query.sql)
+}
+
+exports.countHistoryByName = (data, cb) =>{
+    const query = db.query(`SELECT COUNT (*) as total FROM history h JOIN users u on h.user_id = u.user_id JOIN vehicles v on h.vehicle_id = v.vehicle_id 
+    JOIN category c on v.category = c.category_id WHERE u.fullName LIKE "${ data.search }%"`,(err,res) => {
+        if(err) throw err
+        cb(res)
+    })
+    console.log(query.sql)
+}

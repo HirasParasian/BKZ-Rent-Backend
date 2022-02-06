@@ -8,7 +8,7 @@ const { readHistory,
 } = require("../controllers/history")
 
 history.get("/", readHistory)
-history.get("/:history_id", searchHistory)
+history.get("/byname/", searchHistory)
 history.post("/", createHistory)
 history.patch("/:history_id", updateHistory)
 history.delete("/:history_id", deleteHistory)

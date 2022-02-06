@@ -98,4 +98,4 @@ exports.countVehiclesInWeek = (data, cb) =>{
     })
 }
 
-
+// select h.history_id,u.fullName,v.name as vehicle,c.name as category,v.price as price,h.rentStartDate,h.rentEndDate,DATEDIFF(h.rentEndDate, h.rentStartDate)as days ,v.price * DATEDIFF(h.rentEndDate, h.rentStartDate) as totalPrice from history h join users u on h.user_id = u.user_id join vehicles v on h.vehicle_id = v.vehicle_id join category c on v.category = c.category_id;
