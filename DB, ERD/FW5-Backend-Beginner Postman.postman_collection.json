@@ -1,0 +1,1202 @@
+{
+	"info": {
+		"_postman_id": "7e1a8a84-a3e9-4a31-9c79-0c78de178969",
+		"name": "FW5-Backend-Beginner Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "VEHICLES",
+			"item": [
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vehicle_name",
+									"value": "Mobil C",
+									"type": "default"
+								},
+								{
+									"key": "vehicle_type",
+									"value": "Tipe A",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "vehicle_color",
+									"value": "Blue",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "production_year",
+									"value": "2020",
+									"type": "default",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/vehicles/:vehicle_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"vehicles",
+								":vehicle_id"
+							],
+							"query": [
+								{
+									"key": "vehicle_id",
+									"value": "1",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "vehicle_id",
+									"value": "22"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Sepeda Gunung",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "81000",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "yellow",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "location",
+									"value": "Jakarta",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "Bike",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "isAvailable",
+									"value": "1",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "stock",
+									"value": "8",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"value": "sepeda.png",
+									"type": "default",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/vehicles/:vehicle_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"vehicles",
+								":vehicle_id"
+							],
+							"variable": [
+								{
+									"key": "vehicle_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Lamborghini A",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "30000",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "location",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "category",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "isAvailable",
+									"value": "0",
+									"type": "default"
+								},
+								{
+									"key": "stock",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"value": "",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/vehicles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"vehicles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vehicle_name",
+									"value": "Sepeda",
+									"type": "default"
+								},
+								{
+									"key": "vehicle_type",
+									"value": "Tipe MCU",
+									"type": "default"
+								},
+								{
+									"key": "vehicle_color",
+									"value": "yellow",
+									"type": "default"
+								},
+								{
+									"key": "production_year",
+									"value": "2052",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/vehicles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"vehicles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "popular",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/vehicles/popular/?search=beat",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"vehicles",
+								"popular",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "beat"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "popular in town",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/vehicles/popularintown?location=bekasi",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"vehicles",
+								"popularintown"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "beat",
+									"disabled": true
+								},
+								{
+									"key": "location",
+									"value": "bekasi"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "last week",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/vehicles/popularintown?location=bekasi",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"vehicles",
+								"popularintown"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "beat",
+									"disabled": true
+								},
+								{
+									"key": "location",
+									"value": "bekasi"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "HISTORY",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "rentStartDate",
+									"value": "2021/08/08",
+									"type": "default"
+								},
+								{
+									"key": "rentEndDate",
+									"value": "2021/09/09",
+									"type": "default"
+								},
+								{
+									"key": "user_id",
+									"value": "dasd",
+									"type": "default"
+								},
+								{
+									"key": "vehicle_id",
+									"value": "afs",
+									"type": "default"
+								},
+								{
+									"key": "prepayment",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "isAvailable",
+									"value": "1",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "stock",
+									"value": "8",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"value": "sepeda.png",
+									"type": "default",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/history",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "rentStartDate",
+									"value": "2021/08/08",
+									"type": "default"
+								},
+								{
+									"key": "rentEndDate",
+									"value": "2021/09/09",
+									"type": "default"
+								},
+								{
+									"key": "user_id",
+									"value": "dasd",
+									"type": "default"
+								},
+								{
+									"key": "vehicle_id",
+									"value": "afs",
+									"type": "default"
+								},
+								{
+									"key": "prepayment",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "isAvailable",
+									"value": "1",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "stock",
+									"value": "8",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"value": "sepeda.png",
+									"type": "default",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/history/:history_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"history",
+								":history_id"
+							],
+							"variable": [
+								{
+									"key": "history_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Sepeda Mini",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "82000",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "yellow",
+									"type": "default"
+								},
+								{
+									"key": "location",
+									"value": "Bekasi",
+									"type": "default"
+								},
+								{
+									"key": "category",
+									"value": "Bike",
+									"type": "default"
+								},
+								{
+									"key": "isAvailable",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "stock",
+									"value": "8",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"value": "sepeda.png",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/history?page=1&limit=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"history"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "cinta",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Sepeda Mini",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "82000",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "yellow",
+									"type": "default"
+								},
+								{
+									"key": "location",
+									"value": "Bekasi",
+									"type": "default"
+								},
+								{
+									"key": "category",
+									"value": "Bike",
+									"type": "default"
+								},
+								{
+									"key": "isAvailable",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "stock",
+									"value": "8",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"value": "sepeda.png",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/history/byname/?search=cinta",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"history",
+								"byname",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "cinta"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Sepeda Mini",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "82000",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "yellow",
+									"type": "default"
+								},
+								{
+									"key": "location",
+									"value": "Bekasi",
+									"type": "default"
+								},
+								{
+									"key": "category",
+									"value": "Bike",
+									"type": "default"
+								},
+								{
+									"key": "isAvailable",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "stock",
+									"value": "8",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"value": "sepeda.png",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/history/:history_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"history",
+								":history_id"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "cinta",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "history_id",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USERS",
+			"item": [
+				{
+					"name": "CREATE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "fullName",
+									"value": "Agus Hitler",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "hitler2@nasi.edu",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "hitler123",
+									"type": "default"
+								},
+								{
+									"key": "gender",
+									"value": "Male",
+									"type": "default"
+								},
+								{
+									"key": "address",
+									"value": "Berlin",
+									"type": "default"
+								},
+								{
+									"key": "mobileNumber",
+									"value": "086721347642",
+									"type": "default"
+								},
+								{
+									"key": "birthDate",
+									"value": "1999/01/08",
+									"type": "default"
+								},
+								{
+									"key": "displayName",
+									"value": "Hitlerr",
+									"type": "default"
+								},
+								{
+									"key": "images",
+									"value": "profil.png",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "fullName",
+									"value": "",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "aguss2@nasi.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "agus123",
+									"type": "default"
+								},
+								{
+									"key": "gender",
+									"value": "Male",
+									"type": "default"
+								},
+								{
+									"key": "address",
+									"value": "Berlin",
+									"type": "default"
+								},
+								{
+									"key": "mobileNumber",
+									"value": "081388981199",
+									"type": "default"
+								},
+								{
+									"key": "birthDate",
+									"value": "1999/01/08",
+									"type": "default"
+								},
+								{
+									"key": "displayName",
+									"value": "Hitler",
+									"type": "default"
+								},
+								{
+									"key": "images",
+									"value": "profil.png",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users/:user_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "READ",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "fullName",
+									"value": "Hiras Parasian",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "hirasparasian@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "hiras123",
+									"type": "default"
+								},
+								{
+									"key": "gender",
+									"value": "M",
+									"type": "default"
+								},
+								{
+									"key": "address",
+									"value": "Bekasi",
+									"type": "default"
+								},
+								{
+									"key": "mobileNumber",
+									"value": "081388981122",
+									"type": "default"
+								},
+								{
+									"key": "birthDate",
+									"value": "08/11/99",
+									"type": "default"
+								},
+								{
+									"key": "displayName",
+									"value": "Hiras",
+									"type": "default"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "default",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PROFIL",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "fullName",
+									"value": "Hiras Parasian",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "hirasparasian@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "hiras123",
+									"type": "default"
+								},
+								{
+									"key": "gender",
+									"value": "M",
+									"type": "default"
+								},
+								{
+									"key": "address",
+									"value": "Bekasi",
+									"type": "default"
+								},
+								{
+									"key": "mobileNumber",
+									"value": "081388981122",
+									"type": "default"
+								},
+								{
+									"key": "birthDate",
+									"value": "08/11/99",
+									"type": "default"
+								},
+								{
+									"key": "displayName",
+									"value": "Hiras",
+									"type": "default"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "default",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users/profile/:user_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"profile",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "fullName",
+									"value": "Hiras Parasian",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "hirasparasian@gmail.com",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "hiras123",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "gender",
+									"value": "M",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "address",
+									"value": "Bekasi",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "mobileNumber",
+									"value": "081388981122",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "birthDate",
+									"value": "2000/08/08",
+									"type": "default"
+								},
+								{
+									"key": "displayName",
+									"value": "Hiras",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "default",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users/:user_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
