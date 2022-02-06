@@ -9,9 +9,9 @@ const { readHistory,
 
 history.get("/", readHistory)
 history.get("/:history_id", searchHistory)
-history.post("/create", createHistory)
-history.patch("/update/:history_id", updateHistory)
-history.delete("/delete/:history_id", deleteHistory)
+history.post("/", createHistory)
+history.patch("/:history_id", updateHistory)
+history.delete("/:history_id", deleteHistory)
 
 
 module.exports = history

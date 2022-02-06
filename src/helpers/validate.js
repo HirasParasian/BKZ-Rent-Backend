@@ -68,3 +68,33 @@ exports.validateUsers = (data) => {
     }
     return result
 }
+
+exports.validateHistory = (data) => {
+    var result = ""
+    const { user_id, vehicle_id, rentStartDate, rentEndDate, prepayment} = data
+    if (user_id == null || user_id == "") {
+        result = { ...result, user_id: "Invalid Input  Id user" }
+    } else if (isNaN(Number(user_id))) {
+        result = { ...result, idUser: "Invalid Input  Id user" }
+    }
+
+    if (vehicle_id == null || vehicle_id == "") {
+        result = {...result, vehicle_id: "Invalid Input Id vehicle" }
+    } else if (isNaN(Number(vehicle_id))) {
+        result = {...result, vehicle_id: "Invalid Input  Id vehicle" }
+    }
+
+    if (rentStartDate == null || rentStartDate == "") {
+        result = {...result, rentStartDate: "Invalid Input Rent Start date" }
+    }
+    if (rentEndDate == null || rentEndDate == "") {
+        result = {...result, rentEndDate: "  Start Rent End date" }
+    }
+    if (prepayment == null || prepayment == "") {
+        result = {...result, prepayment: "Invalid Input Prepayment" }
+    } else if (isNaN(Number(prepayment))) {
+        result = {...result, prepayment: "Invalid Input Prepayment" }
+    }
+
+    return result
+}
