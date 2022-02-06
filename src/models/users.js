@@ -44,11 +44,20 @@ exports.updateUsers = (user_id, update, cb) => {
     })
 }
 
-
-
 exports.deleteUsers = (user_id, cb) => {
     db.query("DELETE FROM users WHERE user_id=?", [user_id], (err, res) => {
         if (err) throw err
         cb(res)
     })
 }
+
+exports.profileUsers = (user_id, cb) => {
+    const query = db.query("SELECT fullName,displayName,gender,images,address,birthDate FROM users WHERE user_id=?", [user_id], (error, result) => {
+        if (error) throw error
+        cb(result)
+    })
+    console.log(query.sql)
+}
+
+
+// console.log(query.sql)

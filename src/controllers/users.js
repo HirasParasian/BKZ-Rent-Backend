@@ -182,11 +182,29 @@ const deleteUsers = (req, res) => {
         })
     }
 }
+const profileUsers = (request, response) => {
+    const { user_id } = request.params
+    usersModel.profileUsers(user_id, (result) => {
+        if (result.length > 0) {
+            return response.json({
+                success: true,
+                results: result,
+            })
+        } else {
+            return response.status(404).json({
+                success: false,
+                message: "Data not found.",
+            })
+        }
+    })
+}
+
 
 module.exports = {
     readUsers,
     searchUsers,
     createUsers,
     updateUsers,
-    deleteUsers
+    deleteUsers,
+    profileUsers
 }
