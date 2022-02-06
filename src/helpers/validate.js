@@ -25,3 +25,46 @@ exports.validateVehicles = (data) => {
 
     return result
 }
+
+exports.validateUsers = (data) => {
+    var result = ""
+    const { fullName, email, password, gender, address, mobileNumber, birthDate, displayName } = data
+    if (fullName == null || fullName == "") {
+        result = {...result, fullName: "Invalid Input Full Name" }
+    }
+    if (email == null || email == "") {
+        result = {...result, email: "Invalid Input email" }
+    }
+    if (password == null || password == "") {
+        result = {...result, password: "Invalid Input password" }
+    }
+    if (gender !== "Male" ) {
+        if (gender !== "male" ){
+            if (gender !== "Female" ){
+                if (password !== "female" ){
+                    result = {...result, gender: "Invalid Input gender" }
+                }else{
+                    result = {...result, gender: "Invalid Input gender" }
+                }
+            }else{
+                result = {...result, gender: "Invalid Input gender" }
+            }
+        }else{
+            result = {...result, gender: "Invalid Input gender" }
+        }
+        result = {...result, gender: "Invalid Input gender" }
+    }
+    if (address == null || address == "") {
+        result = {...result, address: "Invalid Input address" }
+    }
+    if (mobileNumber == null || mobileNumber == "") {
+        result = {...result, mobileNumber: "Invalid Input Mobile Number" }
+    }
+    if (birthDate == null || birthDate == "") {
+        result = {...result, birthDate: "Invalid Input Mobile Birth Date" }
+    }
+    if (displayName == null || displayName == "") {
+        result = {...result, displayName: "Invalid Input Mobile Display Name" }
+    }
+    return result
+}

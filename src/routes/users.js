@@ -9,9 +9,9 @@ const { readUsers,
 
 users.get("/", readUsers)
 users.get("/:displayName", searchUsers)
-users.post("/create", createUsers)
-users.patch("/update/:user_id", updateUsers)
-users.delete("/delete/:user_id", deleteUsers)
+users.post("/", createUsers)
+users.patch("/:user_id", updateUsers)
+users.delete("/:user_id", deleteUsers)
 // users.get("/profile", profileUsers)
 
 

@@ -26,7 +26,7 @@ exports.readVehicles = (data,cb) => {
 }
 
 exports.searchVehicles = (vehicle_id, cb) => {
-    db.query("select * FROM vehicles WHERE vehicle_id=?", [vehicle_id], (err, res) => {
+    db.query("SELECT * FROM vehicles WHERE vehicle_id=?", [vehicle_id], (err, res) => {
         if (err) throw err
         cb(res)
     })
