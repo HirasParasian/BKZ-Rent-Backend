@@ -105,9 +105,10 @@ const updateVehicles = (req, res) => {
                         if (result.length == 0) {
                             vehicleModel.updateVehicles(vehicle_id, update, (results) => {
                                 if (results.affectedRows > 0) {
-                                    return res.status(400).json({
+                                    return res.status(200).json({
                                         success: false,
-                                        message: "Update Successfully"
+                                        message: "Update Successfully",
+                                        update : {...update, price : parseInt(update.price),category : parseInt(update.category),stock : parseInt(update.stock),isAvailable : parseInt(update.isAvailable)}
                                     })
                                 } else {
                                     return res.status(400).json({

@@ -1,7 +1,8 @@
 const db = require("../helpers/db")
 
 exports.countVehicles = (data, cb) =>{
-    db.query(`SELECT COUNT (*) as total FROM vehicles WHERE name LIKE "${ data.search }%"`,(err,res) => {
+    db.query(`SELECT COUNT (*) as total FROM vehicles v JOIN category c on v.category = c.category_id WHERE v.name LIKE "${ data.search }%" 
+    OR c.name LIKE '%${data.search}%'`,(err,res) => {
         if(err) throw err
         cb(res)
     })
@@ -83,7 +84,7 @@ exports.popularInTownVehicles = (data ,cb) => {
 
 exports.newVehiclesinWeek = (data ,cb) => {
     const query = db.query(`SELECT vehicle_id,name,location,createdAt FROM vehicles WHERE createdAt >= curdate() - 
-              INTERVAL DAYOFWEEK(curdate())+6 DAY AND createdAt < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY 
+              INTERVAL DAYOFWEEK(curdate())+5 DAY AND createdAt < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY 
               ORDER BY createdAt DESC LIMIT ${data.limit} OFFSET ${data.offset}`, (error, res) => {
         if (error) throw error
         cb(res)
@@ -92,7 +93,7 @@ exports.newVehiclesinWeek = (data ,cb) => {
 }
 exports.countVehiclesInWeek = (data, cb) =>{
     db.query(`SELECT COUNT(*) as total FROM vehicles WHERE createdAt >= curdate() - 
-    INTERVAL DAYOFWEEK(curdate())+6 DAY AND createdAt < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY `,(err,res) => {
+    INTERVAL DAYOFWEEK(curdate())+5 DAY AND createdAt < curdate() - INTERVAL DAYOFWEEK(curdate())-1 DAY `,(err,res) => {
         if(err) throw err
         cb(res)
     })

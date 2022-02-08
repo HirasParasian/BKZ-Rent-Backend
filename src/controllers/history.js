@@ -44,14 +44,14 @@ const searchHistory = (req, res) => {
         if (results.length > 0) {
             return res.json({
                 success: true,
-                message: "Detail Vehicle",
+                message: "Detail History",
                 results: results[0],
                 
             })
         } else {
             return res.status(404).json({
                 success: false,
-                message: "Vehicle not found"
+                message: "History not found"
             })
         }
     })
