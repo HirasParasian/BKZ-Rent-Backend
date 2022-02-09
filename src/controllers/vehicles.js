@@ -13,6 +13,12 @@ const readVehicles = (req, res) => {
     const data = { search, limit, offset }
 
     vehicleModel.readVehicles(data,(results)=>{
+        const processedResult = results.map((obj)=> {
+            if(obj.image !==null){
+                obj.image = `${APP_URL}/${obj.image}`
+            }
+            return obj
+        })
         vehicleModel.countVehicles(data,(count)=>{
             const {total} = count[0]
             const last = Math.ceil(total /limit)
@@ -20,7 +26,7 @@ const readVehicles = (req, res) => {
                 return res.status(200).json({
                     success: true,
                     message: "List Vehicles",
-                    results: results,
+                    results: processedResult,
                     pageInfo:{
                         prev: page > 1 ? `http://localhost:5000/vehicles?page=${page-1}`: null,
                         next: page < last ? `http://localhost:5000/vehicles?page=${page+1}`: null ,
