@@ -1,6 +1,9 @@
 const vehicles = require("express").Router()
+const multer = require("multer")
+const upload = multer({ dest: "uploads/vehicles/" })
 
-const { readVehicles, 
+const { 
+    readVehicles, 
     searchVehicles, 
     createVehicles,
     updateVehicles,
@@ -13,7 +16,7 @@ const { readVehicles,
 vehicles.get("/", readVehicles)
 vehicles.get("/search", searchVehicles)
 vehicles.post("/", createVehicles)
-vehicles.patch("/:vehicle_id", updateVehicles)
+vehicles.patch("/:vehicle_id",upload.single("vehicles"), updateVehicles)
 vehicles.delete("/:vehicle_id", deleteVehicles)
 vehicles.get("/popular", popularVehicles)
 vehicles.get("/popularintown", popularInTownVehicles)

@@ -55,41 +55,28 @@ const searchVehicles = (req, res) => {
 }
 
 const createVehicles = (req, res) => {
+    console.log(req.file)
     const newData = {
         ...req.body
-    }
-    if (validate.validateVehicles(newData) == "") {
-        vehicleModel.getName(newData.name, (result) => {
-            if (result.length == 0) {
-                vehicleModel.createVehicles(newData, (results) => {
-                    if (results.affectedRows > 0) {
-                        return res.json({
-                            success: true,
-                            message: "Data Vehicle created successfully.",
-                            results: newData
-                        })
-                    } else {
-                        return res.status(500).json({
-                            success: false,
-                            message: "Data Vehicle failed to create."
-                        })
-                    }
-                })
-            } else {
-                return res.status(400).json({
-                    success: false,
-                    message: "Name has already used."
-                })
-            }
-        })
-    } else {
-        return res.status(400).json({
-            success: false,
-            message: "Data Vehicle was not valid.",
-            error: validate.validateVehicles(newData)
-        })
-    }
+    }   
+    
+    vehicleModel.createVehicles(newData, (results) => {
+        if (results.affectedRows > 0) {
+            return res.json({
+                success: true,
+                message: "Data Vehicle created successfully.",
+                results: newData
+            })
+        } else {
+            return res.status(500).json({
+                success: false,
+                message: "Data Vehicle failed to create."
+            })
+        }
+    })
 }
+    
+
 
 const updateVehicles = (req, res) => {
     const { vehicle_id } = req.params
