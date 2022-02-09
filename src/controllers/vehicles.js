@@ -2,7 +2,7 @@ const vehicleModel = require("../models/vehicles")
 const validate = require("../helpers/validate")
 const {APP_URL} = process.env
 const upload = require("../helpers/upload").single("image")
-
+const fs = require("fs")
 
 const readVehicles = (req, res) => {
     let { search, page, limit } = req.query
@@ -48,11 +48,18 @@ const searchVehicles = (req, res) => {
     const { search } = req.query
     vehicleModel.searchVehicles(search, results => {
         if (results.length > 0) {
-            return res.json({
-                success: true,
-                message: "Detail Vehicle",
-                results: results,
-                
+            fs.rm(results[0].image, {}, function(err){
+                if(err) {
+                    return res.status(500).json({
+                        success: false,
+                        message: "File not found"
+                    })
+                }
+                return res.json({
+                    success: true,
+                    message: "Detail Vehicle",
+                    results: results[0]
+                })
             })
         } else {
             return res.status(404).json({
