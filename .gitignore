@@ -5,3 +5,4 @@
 *.ali
 # Dependency directories
 node_modules/
+uploads/
