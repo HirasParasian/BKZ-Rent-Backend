@@ -5,7 +5,7 @@ const app = express()
 app.use(express.urlencoded({extended: true}))
 
 app.use(require("./src/routes"))
-app.use("/uploads/vehicles", express.static("uploads"))
+app.use("/uploads", express.static("uploads"))
 
 const { PORT, APP_PORT } = process.env
 

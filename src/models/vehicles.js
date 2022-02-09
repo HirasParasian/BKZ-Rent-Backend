@@ -35,7 +35,7 @@ exports.searchVehicles = (vehicle_id, cb) => {
 
 
 exports.createVehicles = (data,cb) => {
-    const query = db.query("INSERT INTO `vehicles` (name, price ,description ,location ,category isAvailable ,stock ,image) VALUES (? ,? ,? ,? ,? ,? ,? ,?)",[data.name,data.price,data.description,data.location,data.category,data.isAvailable,data.stock,data.image], (err, res) => {
+    const query = db.query("INSERT INTO vehicles SET ?",[data], (err, res) => {
         if (err) throw err
         cb(res)
     })
