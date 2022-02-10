@@ -37,6 +37,13 @@ exports.createUsers = (data, cb) => {
   })
 }
 
+exports.createUsersAsync = (data) => new Promise((resolve, reject) => {
+  db.query("INSERT INTO users SET ?", [data], (err, res) => {
+    if (err) reject(err)
+    resolve(res)
+  })
+})
+
 exports.updateUsers = (userId, update, cb) => {
   db.query("UPDATE users SET ? WHERE  userId=?", [update, userId], (err, results) => {
     if (err) throw err

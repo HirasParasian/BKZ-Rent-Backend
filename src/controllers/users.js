@@ -1,5 +1,7 @@
 const usersModel = require("../models/users")
 const validate = require("../helpers/validate")
+const bcrypt = require("bcrypt")
+const response = require("../helpers/response")
 
 const readUsers = (req, res) => {
   let { search, page, limit, userId } = req.query
@@ -57,42 +59,53 @@ const searchUsers = (req, res) => {
   })
 }
 
-const createUsers = (req, res) => {
-  const newData = {
-    ...req.body
+const createUsers = async (req, res) => {
+  const { fullName, username, email, password: plainPassword, gender, address, mobileNumber, birthDate, displayName, images } = req.body
+  const salt = await bcrypt.genSalt(10)
+  const password = await bcrypt.hash(plainPassword, salt)
+  const results = await usersModel.createUsersAsync({ fullName, username, email, password, gender, address, mobileNumber, birthDate, displayName, images })
+  if (results.affectedRows >= 1) {
+    return response(res, "User created successfully!")
   }
-  if (validate.validateUsers(newData) == "") {
-    usersModel.getEmail(newData.email, (result) => {
-      if (result.length == 0) {
-        usersModel.createUsers(newData, (results) => {
-          if (results.affectedRows > 0) {
-            return res.json({
-              success: true,
-              message: "Data Users created successfully",
-              results: newData
-            })
-          } else {
-            return res.status(500).json({
-              success: false,
-              message: "Data Users failed to create"
-            })
-          }
-        })
-      } else {
-        return res.status(400).json({
-          success: false,
-          message: "Email has already used"
-        })
-      }
-    })
-  } else {
-    return res.status(400).json({
-      success: false,
-      message: "Data User was not valid",
-      error: validate.validateUsers(newData)
-    })
-  }
+  // return response(res, 'User created successfully!');
 }
+
+// const createUsers = (req, res) => {
+//   const newData = {
+//     ...req.body
+//   }
+//   if (validate.validateUsers(newData) == "") {
+//     usersModel.getEmail(newData.email, (result) => {
+//       if (result.length == 0) {
+//         usersModel.createUsers(newData, (results) => {
+//           if (results.affectedRows > 0) {
+//             return res.json({
+//               success: true,
+//               message: "Data Users created successfully",
+//               results: newData
+//             })
+//           } else {
+//             return res.status(500).json({
+//               success: false,
+//               message: "Data Users failed to create"
+//             })
+//           }
+//         })
+//       } else {
+//         return res.status(400).json({
+//           success: false,
+//           message: "Email has already used"
+//         })
+//       }
+//     })
+//   } else {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Data User was not valid",
+//       error: validate.validateUsers(newData)
+//     })
+//   }
+// }
 
 const updateUsers = (req, res) => {
   const { userId } = req.params
