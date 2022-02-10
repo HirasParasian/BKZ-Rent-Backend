@@ -3,6 +3,7 @@ const validate = require("../helpers/validate")
 const {APP_URL} = process.env
 const upload = require("../helpers/upload").single("image")
 const fs = require("fs")
+const response = require("../helpers/response")
 
 const readVehicles = (req, res) => {
     let { search, page, limit } = req.query
@@ -45,8 +46,8 @@ const readVehicles = (req, res) => {
 }
 
 const searchVehicles = (req, res) => {
-    const { search } = req.query
-    vehicleModel.searchVehicles(search, results => {
+    const { vehicle_id } = req.params
+    vehicleModel.searchVehicles(vehicle_id, results => {
         if (results.length > 0) {
             fs.rm(results[0].image, {}, function(err){
                 if(err) {
@@ -55,10 +56,11 @@ const searchVehicles = (req, res) => {
                         message: "File not found"
                     })
                 }
+                const data = results[0]
                 return res.json({
                     success: true,
                     message: "Detail Vehicle",
-                    results: results[0]
+                    results: data[0]
                 })
             })
         } else {
@@ -121,61 +123,39 @@ const createVehicles = (req, res) => {
     
 
 
-const updateVehicles = (req, res) => {
+const updateVehicles = async(req, res) => {
     const { vehicle_id } = req.params
-    if (vehicle_id !== " ") {
-        const update = {
-            ...req.body
-        }
-
-        vehicleModel.searchVehicles(vehicle_id, (result) => {
-            if (result.length > 0) {
-                if (validate.validateVehicles(update) == "") {
-                    vehicleModel.getName(update.name, (result) => {
-                        if (result.length == 0) {
-                            vehicleModel.updateVehicles(vehicle_id, update, (results) => {
-                                if (results.affectedRows > 0) {
-                                    return res.status(200).json({
-                                        success: false,
-                                        message: "Update Successfully",
-                                        update : {...update, price : parseInt(update.price),category : parseInt(update.category),stock : parseInt(update.stock),isAvailable : parseInt(update.isAvailable)}
-                                    })
-                                } else {
-                                    return res.status(400).json({
-                                        success: false,
-                                        message: "Update Failed"
-                                    })
-                                }
-                            })
-                        } else {
-                            return res.status(400).json({
-                                success: false,
-                                message: "Name has already used"
-                            })
-                        }
-                    })
-                } else {
-                    return res.status(400).json({
-                        success: false,
-                        message: "Invalid Data Vehicle"
-                    })
-                }
-
-            } else {
-                return res.status(400).json({
-                    success: false,
-                    message: "Vehicle Not Found"
-                })
+    const result = await vehicleModel.searchVehiclesAsync(vehicle_id)
+    if(result.length >= 1){
+        const data = {}
+        // console.log(data)
+        const fillable = ["name","price","description","location","category","isAvailable","stock","image"]
+        fillable.forEach(field => {
+            if(req.body[field]){
+                data[field] = req.body[field] 
             }
+            console.log(data)
         })
-
-    } else {
+        try{
+            const resultUpdate = await vehicleModel.updateVehiclesAsync(data, vehicle_id)
+            console.log(resultUpdate)
+            if(resultUpdate.affectedRows){
+                const fetchNew = await vehicleModel.searchVehiclesAsync(vehicle_id)
+                console.log(fetchNew)
+                return response(res, "Update Success", fetchNew[0])
+            }
+        }catch(err){
+            return response(res, "Unexpected Error", null, 400)
+        }
+    }else{
         return res.status(400).json({
             success: false,
-            message: "Null ID Detected"
+            message: "Unexpected data",
+            result
         })
     }
 }
+
 
 const deleteVehicles = (req, res) => {
     const {vehicle_id} = req.params

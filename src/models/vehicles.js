@@ -32,7 +32,12 @@ exports.searchVehicles = (vehicle_id, cb) => {
         cb(res)
     })
 }
-
+exports.searchVehiclesAsync = (vehicle_id) => new Promise((resolve, reject)=> {
+    db.query("SELECT * FROM vehicles WHERE vehicle_id=?", [vehicle_id], (err, res) => {
+        if (err) reject(err)
+        resolve(res)
+    })
+})
 
 exports.createVehicles = (data,cb) => {
     const query = db.query("INSERT INTO vehicles SET ?",[data], (err, res) => {
@@ -43,12 +48,19 @@ exports.createVehicles = (data,cb) => {
 }
 
 exports.updateVehicles = (vehicle_id, update, cb) => {
-  
     db.query("UPDATE vehicles SET ? WHERE  vehicle_id=?", [update, vehicle_id], (err, results) => {
         if (err) throw err
         cb(results)
     })
 }
+
+exports.updateVehiclesAsync = (data, vehicle_id) => new Promise((resolve, reject)=> {
+    const query = db.query("UPDATE vehicles SET ? WHERE  vehicle_id=?", [data, vehicle_id], (err, res)=> {
+        if(err) reject(err)
+        resolve(res) // Object => affectedRows
+    })
+    console.log(query.sql)
+})
 
 exports.deleteVehicles = (vehicle_id, cb) => {
     db.query("DELETE FROM vehicles WHERE vehicle_id=?", [vehicle_id], (err, res) => {
