@@ -16,6 +16,14 @@ exports.getEmail = (email, cb) => {
     cb(res)
   })
 }
+
+exports.getEmailAsync = (email) => new Promise((resolve, reject) => {
+  db.query("select email from users where email=?", [email], (err, res) => {
+    if (err) reject(err)
+    resolve(res)
+  })
+})
+
 exports.countUsers = (data, cb) => {
   db.query(`SELECT COUNT (*) as total FROM users WHERE fullName LIKE "%${data.search}%"`, (err, res) => {
     if (err) throw err
