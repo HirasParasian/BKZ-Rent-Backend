@@ -2,15 +2,15 @@ const vehicles = require("express").Router()
 // const multer = require("multer")
 // const upload = multer({ dest: "uploads/vehicles/" })
 
-const { 
-    readVehicles, 
-    searchVehicles, 
-    createVehicles,
-    updateVehicles,
-    deleteVehicles,
-    popularVehicles,
-    popularInTownVehicles,
-    newVehiclesinWeek
+const {
+  readVehicles,
+  searchVehicles,
+  createVehicles,
+  updateVehicles,
+  deleteVehicles,
+  popularVehicles,
+  popularInTownVehicles,
+  newVehiclesinWeek
 } = require("../controllers/vehicles")
 
 vehicles.get("/", readVehicles)

@@ -1,10 +1,10 @@
 const category = require("express").Router()
 
-const { readCategory, 
-    searchCategory, 
-    createCategory,
-    updateCategory,
-    deleteCategory
+const { readCategory,
+  searchCategory,
+  createCategory,
+  updateCategory,
+  deleteCategory
 } = require("../controllers/category")
 
 category.get("/", readCategory)

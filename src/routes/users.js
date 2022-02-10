@@ -1,11 +1,11 @@
 const users = require("express").Router()
 
-const { readUsers, 
-    searchUsers, 
-    createUsers,
-    updateUsers,
-    deleteUsers,
-    profileUsers
+const { readUsers,
+  searchUsers,
+  createUsers,
+  updateUsers,
+  deleteUsers,
+  profileUsers
 } = require("../controllers/users")
 
 users.get("/", readUsers)
