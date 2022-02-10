@@ -11,9 +11,9 @@ const { readUsers,
 users.get("/", readUsers)
 users.get("/:displayName", searchUsers)
 users.post("/", createUsers)
-users.patch("/:user_id", updateUsers)
-users.delete("/:user_id", deleteUsers)
-users.get("/profile/:user_id", profileUsers)
+users.patch("/:userId", updateUsers)
+users.delete("/:userId", deleteUsers)
+users.get("/profile/:userId", profileUsers)
 
 
 module.exports = users

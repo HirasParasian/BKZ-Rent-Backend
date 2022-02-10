@@ -2,12 +2,12 @@ const usersModel = require("../models/users")
 const validate = require("../helpers/validate")
 
 const readUsers = (req, res) => {
-    let { search, page, limit, user_id } = req.query
+    let { search, page, limit, userId } = req.query
     search = search || ""
     page = Number(page) || 1
     limit = Number(limit) || 5
     let offset = (page -1) * limit 
-    const data = { search, limit, offset, user_id }
+    const data = { search, limit, offset, userId }
 
     usersModel.readUsers(data,(results)=>{
         usersModel.countUsers(data,(count)=>{
@@ -95,18 +95,18 @@ const createUsers = (req, res) => {
 }
 
 const updateUsers = (req, res) => {
-    const { user_id } = req.params
-    if (user_id !== " ") {
+    const { userId } = req.params
+    if (userId !== " ") {
         const update = {
             ...req.body
         }
 
-        usersModel.searchUsers(user_id, (result) => {
+        usersModel.searchUsers(userId, (result) => {
             if (result.length > 0) {
                 if (validate.validateUsers(update) == "") {
                     usersModel.getEmail(update.email, (result) => {
                         if (result.length == 0) {
-                            usersModel.updateUsers(user_id, update, (results) => {
+                            usersModel.updateUsers(userId, update, (results) => {
                                 if (results.affectedRows > 0) {
                                     return res.status(400).json({
                                         success: false,
@@ -150,11 +150,11 @@ const updateUsers = (req, res) => {
 }
 
 const deleteUsers = (req, res) => {
-    const {user_id} = req.params
-    if (user_id !== " ") {
-        usersModel.searchUsers(user_id, (result) => {
+    const {userId} = req.params
+    if (userId !== " ") {
+        usersModel.searchUsers(userId, (result) => {
             if (result.length > 0) {
-                usersModel.deleteUsers(user_id, (results) => {
+                usersModel.deleteUsers(userId, (results) => {
                     if (results.affectedRows > 0) {
                         return res.json({
                             success: true,
@@ -183,8 +183,8 @@ const deleteUsers = (req, res) => {
     }
 }
 const profileUsers = (request, response) => {
-    const { user_id } = request.params
-    usersModel.profileUsers(user_id, (result) => {
+    const { userId } = request.params
+    usersModel.profileUsers(userId, (result) => {
         if (result.length > 0) {
             return response.json({
                 success: true,

@@ -1,7 +1,7 @@
 const db = require("../helpers/db")
 
 exports.readUsers = (data,cb) => {
-    db.query(`SELECT user_id, fullName, gender, address, mobileNumber, birthDate, displayName  
+    db.query(`SELECT userId, fullName, gender, address, mobileNumber, birthDate, displayName  
               FROM users WHERE fullName LIKE "%${ data.search }%" 
               LIMIT ${data.limit} OFFSET ${data.offset}`, (err, res) => {
         if (err) throw err
@@ -23,8 +23,8 @@ exports.countUsers = (data, cb) =>{
     })
 }
 
-exports.searchUsers = (user_id, cb) => {
-    db.query("SELECT * FROM users WHERE user_id=?", [user_id], (err, res) => {
+exports.searchUsers = (userId, cb) => {
+    db.query("SELECT * FROM users WHERE userId=?", [userId], (err, res) => {
         if (err) throw err
         cb(res)
     })
@@ -37,22 +37,22 @@ exports.createUsers = (data,cb) => {
     })
 }
 
-exports.updateUsers = (user_id, update, cb) => {
-    db.query("UPDATE users SET ? WHERE  user_id=?", [update, user_id], (err, results) => {
+exports.updateUsers = (userId, update, cb) => {
+    db.query("UPDATE users SET ? WHERE  userId=?", [update, userId], (err, results) => {
         if (err) throw err
         cb(results)
     })
 }
 
-exports.deleteUsers = (user_id, cb) => {
-    db.query("DELETE FROM users WHERE user_id=?", [user_id], (err, res) => {
+exports.deleteUsers = (userId, cb) => {
+    db.query("DELETE FROM users WHERE userId=?", [userId], (err, res) => {
         if (err) throw err
         cb(res)
     })
 }
 
-exports.profileUsers = (user_id, cb) => {
-    const query = db.query("SELECT fullName,displayName,gender,images,address,birthDate FROM users WHERE user_id=?", [user_id], (error, result) => {
+exports.profileUsers = (userId, cb) => {
+    const query = db.query("SELECT fullName,displayName,gender,images,address,birthDate FROM users WHERE userId=?", [userId], (error, result) => {
         if (error) throw error
         cb(result)
     })

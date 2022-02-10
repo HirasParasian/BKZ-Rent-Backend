@@ -71,10 +71,10 @@ exports.validateUsers = (data) => {
 
 exports.validateHistory = (data) => {
     var result = ""
-    const { user_id, vehicleId, rentStartDate, rentEndDate, prepayment} = data
-    if (user_id == null || user_id == "") {
-        result = { ...result, user_id: "Invalid Input  Id user" }
-    } else if (isNaN(Number(user_id))) {
+    const { userId, vehicleId, rentStartDate, rentEndDate, prepayment} = data
+    if (userId == null || userId == "") {
+        result = { ...result, userId: "Invalid Input  Id user" }
+    } else if (isNaN(Number(userId))) {
         result = { ...result, idUser: "Invalid Input  Id user" }
     }
 
