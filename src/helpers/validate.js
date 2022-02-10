@@ -11,7 +11,7 @@ exports.validateVehicles = (data) => {
         result = {...result, location: "Invalid Input Location" }
     }
     if (category == null || category == "" || category < 1 || category > 3) {
-        result = {...result, category_id: "Invalid Input Category ID" }
+        result = {...result, categoryId: "Invalid Input Category ID" }
     }
     if (isAvailable == null || isAvailable == "" || isAvailable >1 || isAvailable < 0) {
         result = {...result, isAvailable: "Invalid Input isAvailable" }
@@ -71,17 +71,17 @@ exports.validateUsers = (data) => {
 
 exports.validateHistory = (data) => {
     var result = ""
-    const { user_id, vehicle_id, rentStartDate, rentEndDate, prepayment} = data
+    const { user_id, vehicleId, rentStartDate, rentEndDate, prepayment} = data
     if (user_id == null || user_id == "") {
         result = { ...result, user_id: "Invalid Input  Id user" }
     } else if (isNaN(Number(user_id))) {
         result = { ...result, idUser: "Invalid Input  Id user" }
     }
 
-    if (vehicle_id == null || vehicle_id == "") {
-        result = {...result, vehicle_id: "Invalid Input Id vehicle" }
-    } else if (isNaN(Number(vehicle_id))) {
-        result = {...result, vehicle_id: "Invalid Input  Id vehicle" }
+    if (vehicleId == null || vehicleId == "") {
+        result = {...result, vehicleId: "Invalid Input Id vehicle" }
+    } else if (isNaN(Number(vehicleId))) {
+        result = {...result, vehicleId: "Invalid Input  Id vehicle" }
     }
 
     if (rentStartDate == null || rentStartDate == "") {

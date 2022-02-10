@@ -13,9 +13,9 @@ const readCategory = (req, res) => {
 
 const searchCategory = (req, res) => {
     const {
-        category_id
+        categoryId
     } = req.params
-    categoryModel.searchCategory(category_id, results => {
+    categoryModel.searchCategory(categoryId, results => {
         if (results.length > 0) {
             return res.json({
                 success: true,
@@ -56,8 +56,8 @@ const updateCategory = (req, res) => {
     const update = {
         ...req.body
     }
-    const {category_id} = req.params
-    categoryModel.updateCategory(update, category_id, results => {
+    const {categoryId} = req.params
+    categoryModel.updateCategory(update, categoryId, results => {
         if(results.changedRows>0) {
             return res.json({
                 success: true,
@@ -73,8 +73,8 @@ const updateCategory = (req, res) => {
 }
 
 const deleteCategory = (req, res) => {
-    const {category_id} = req.params
-    categoryModel.deleteCategory(category_id, results => { 
+    const {categoryId} = req.params
+    categoryModel.deleteCategory(categoryId, results => { 
         if(results.affectedRows == 1) {
             return res.json({
                 success: true,

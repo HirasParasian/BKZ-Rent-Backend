@@ -46,8 +46,8 @@ const readVehicles = (req, res) => {
 }
 
 const searchVehicles = (req, res) => {
-    const { vehicle_id } = req.params
-    vehicleModel.searchVehicles(vehicle_id, results => {
+    const { vehicleId } = req.params
+    vehicleModel.searchVehicles(vehicleId, results => {
         if (results.length > 0) {
             fs.rm(results[0].image, {}, function(err){
                 if(err) {
@@ -124,8 +124,9 @@ const createVehicles = (req, res) => {
 
 
 const updateVehicles = async(req, res) => {
-    const { vehicle_id } = req.params
-    const result = await vehicleModel.searchVehiclesAsync(vehicle_id)
+
+    const { vehicleId } = req.params
+    const result = await vehicleModel.searchVehiclesAsync(vehicleId)
     if(result.length >= 1){
         const data = {}
         // console.log(data)
@@ -137,10 +138,10 @@ const updateVehicles = async(req, res) => {
             console.log(data)
         })
         try{
-            const resultUpdate = await vehicleModel.updateVehiclesAsync(data, vehicle_id)
+            const resultUpdate = await vehicleModel.updateVehiclesAsync(data, vehicleId)
             console.log(resultUpdate)
             if(resultUpdate.affectedRows){
-                const fetchNew = await vehicleModel.searchVehiclesAsync(vehicle_id)
+                const fetchNew = await vehicleModel.searchVehiclesAsync(vehicleId)
                 console.log(fetchNew)
                 return response(res, "Update Success", fetchNew[0])
             }
@@ -158,11 +159,11 @@ const updateVehicles = async(req, res) => {
 
 
 const deleteVehicles = (req, res) => {
-    const {vehicle_id} = req.params
-    if (vehicle_id !== " ") {
-        vehicleModel.searchVehicles(vehicle_id, (result) => {
+    const {vehicleId} = req.params
+    if (vehicleId !== " ") {
+        vehicleModel.searchVehicles(vehicleId, (result) => {
             if (result.length > 0) {
-                vehicleModel.deleteVehicles(vehicle_id, (results) => {
+                vehicleModel.deleteVehicles(vehicleId, (results) => {
                     if (results.affectedRows > 0) {
                         return res.json({
                             success: true,

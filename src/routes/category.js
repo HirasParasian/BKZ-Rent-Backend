@@ -8,10 +8,10 @@ const { readCategory,
 } = require("../controllers/category")
 
 category.get("/", readCategory)
-category.get("/:category_id", searchCategory)
+category.get("/:categoryId", searchCategory)
 category.post("/create", createCategory)
-category.patch("/update/:category_id", updateCategory)
-category.delete("/delete/:category_id", deleteCategory)
+category.patch("/update/:categoryId", updateCategory)
+category.delete("/delete/:categoryId", deleteCategory)
 
 
 module.exports = category
