@@ -74,5 +74,10 @@ exports.profileUsers = (userId, cb) => {
   console.log(query.sql)
 }
 
-
+exports.getUserByUsername = (username) => new Promise((resolve, reject) => {
+  db.query("SELECT id, username, password FROM users WHERE username=?", [username], (err, res) => {
+    if (err) reject(err)
+    resolve(res)
+  })
+})
 // console.log(query.sql)
