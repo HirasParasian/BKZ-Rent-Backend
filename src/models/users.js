@@ -75,7 +75,7 @@ exports.profileUsers = (userId, cb) => {
 }
 
 exports.getUserByUsername = (username) => new Promise((resolve, reject) => {
-  db.query("SELECT id, username, password FROM users WHERE username=?", [username], (err, res) => {
+  db.query("SELECT UserId, username, password FROM users WHERE username=?", [username], (err, res) => {
     if (err) reject(err)
     resolve(res)
   })

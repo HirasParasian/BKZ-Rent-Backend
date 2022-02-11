@@ -7,11 +7,12 @@ const { APP_SECRET } = process.env
 exports.login = async (req, res) => {
   const { username, password } = req.body
   const result = await userModel.getUserByUsername(username)
+  console.log(result)
   if (result.length === 1) {
     const { password: hash } = result[0]
     const fin = await bcrypt.compare(password, hash)
     if (fin) {
-      const data = { id: result[0].id }
+      const data = { userId: result[0].userId }
       if (username === "admin") {
         data.role = "admin"
       }

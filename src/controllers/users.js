@@ -64,7 +64,7 @@ const createUsers = async (req, res) => {
   const { fullName, username, email, password: plainPassword, gender, address, mobileNumber, birthDate, displayName, images } = req.body
   const salt = await bcrypt.genSalt(10)
   const password = await bcrypt.hash(plainPassword, salt)
-  const result = await usersModel.getEmailAsync({email})
+  const result = await usersModel.getEmailAsync({ email })
   if (result.length == 0) {
     const results = await usersModel.createUsersAsync({ fullName, username, email, password, gender, address, mobileNumber, birthDate, displayName, images })
     if (results.affectedRows > 0) {
