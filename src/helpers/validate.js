@@ -41,7 +41,7 @@ exports.validateUsers = (data) => {
   if (gender !== "Male") {
     if (gender !== "male") {
       if (gender !== "Female") {
-        if (password !== "female") {
+        if (gender !== "female") {
           result = { ...result, gender: "Invalid Input gender" }
         } else {
           result = { ...result, gender: "Invalid Input gender" }

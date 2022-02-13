@@ -93,6 +93,7 @@ const register = async (req, res) => {
     const newData = {
       ...req.body
     }
+    newData.password = bcrypt.hashSync(newData.password, 10)
     if (req.file) {
       newData.images = req.file.path
     }
