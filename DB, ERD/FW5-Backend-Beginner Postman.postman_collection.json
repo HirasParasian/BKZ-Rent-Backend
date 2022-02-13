@@ -47,12 +47,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/vehicles/:vehicle_id",
-							"protocol": "http",
+							"raw": "{{baseURL}}/vehicles/:vehicle_id",
 							"host": [
-								"localhost"
+								"{{baseURL}}"
 							],
-							"port": "5000",
 							"path": [
 								"vehicles",
 								":vehicle_id"
@@ -67,7 +65,7 @@
 							"variable": [
 								{
 									"key": "vehicle_id",
-									"value": "22"
+									"value": "1"
 								}
 							]
 						}
@@ -75,7 +73,74 @@
 					"response": []
 				},
 				{
-					"name": "update",
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "asda",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Blue",
+									"type": "default"
+								},
+								{
+									"key": "location",
+									"value": "Yogyakarta",
+									"type": "default"
+								},
+								{
+									"key": "category",
+									"value": "2",
+									"type": "default"
+								},
+								{
+									"key": "isAvailable",
+									"value": "1",
+									"type": "default"
+								},
+								{
+									"key": "stock",
+									"value": "3",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/hiras/Downloads/bugati.jpg"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/vehicles",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"vehicles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
 					"request": {
 						"method": "PATCH",
 						"header": [],
@@ -83,51 +148,9 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "name",
-									"value": "Sepeda Gunung",
-									"type": "default"
-								},
-								{
-									"key": "price",
-									"value": "81000",
-									"type": "default",
-									"disabled": true
-								},
-								{
-									"key": "description",
-									"value": "yellow",
-									"type": "default",
-									"disabled": true
-								},
-								{
-									"key": "location",
-									"value": "Jakarta",
-									"type": "default",
-									"disabled": true
-								},
-								{
-									"key": "category",
-									"value": "Bike",
-									"type": "default",
-									"disabled": true
-								},
-								{
 									"key": "isAvailable",
-									"value": "1",
-									"type": "default",
-									"disabled": true
-								},
-								{
-									"key": "stock",
-									"value": "8",
-									"type": "default",
-									"disabled": true
-								},
-								{
-									"key": "image",
-									"value": "sepeda.png",
-									"type": "default",
-									"disabled": true
+									"value": "0",
+									"type": "default"
 								}
 							],
 							"options": {
@@ -150,77 +173,8 @@
 							"variable": [
 								{
 									"key": "vehicle_id",
-									"value": ""
+									"value": "3"
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "name",
-									"value": "Lamborghini A",
-									"type": "default"
-								},
-								{
-									"key": "price",
-									"value": "30000",
-									"type": "default"
-								},
-								{
-									"key": "description",
-									"value": "",
-									"type": "default"
-								},
-								{
-									"key": "location",
-									"value": "",
-									"type": "default"
-								},
-								{
-									"key": "category",
-									"value": "",
-									"type": "default"
-								},
-								{
-									"key": "isAvailable",
-									"value": "0",
-									"type": "default"
-								},
-								{
-									"key": "stock",
-									"value": "",
-									"type": "default"
-								},
-								{
-									"key": "image",
-									"value": "",
-									"type": "default"
-								}
-							],
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5000/vehicles",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"vehicles"
 							]
 						}
 					},
@@ -265,14 +219,34 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/vehicles",
-							"protocol": "http",
+							"raw": "{{baseURL}}/vehicles?page=9&limit=&search=&sort=&order=DESC",
 							"host": [
-								"localhost"
+								"{{baseURL}}"
 							],
-							"port": "5000",
 							"path": [
 								"vehicles"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "9"
+								},
+								{
+									"key": "limit",
+									"value": ""
+								},
+								{
+									"key": "search",
+									"value": ""
+								},
+								{
+									"key": "sort",
+									"value": ""
+								},
+								{
+									"key": "order",
+									"value": "DESC"
+								}
 							]
 						}
 					},
@@ -284,12 +258,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/vehicles/popular/?search=beat",
-							"protocol": "http",
+							"raw": "{{baseURL}}/vehicles/popular/",
 							"host": [
-								"localhost"
+								"{{baseURL}}"
 							],
-							"port": "5000",
 							"path": [
 								"vehicles",
 								"popular",
@@ -298,7 +270,8 @@
 							"query": [
 								{
 									"key": "search",
-									"value": "beat"
+									"value": "beat",
+									"disabled": true
 								}
 							]
 						}
@@ -311,7 +284,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/vehicles/popularintown?location=bekasi",
+							"raw": "http://localhost:5000/vehicles/popularintown?location=bekasi&page=1&limit=5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -330,6 +303,14 @@
 								{
 									"key": "location",
 									"value": "bekasi"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
 								}
 							]
 						}
@@ -342,7 +323,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/vehicles/popularintown?location=bekasi",
+							"raw": "http://localhost:5000/vehicles/lastweekvehicles?page=4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -350,7 +331,7 @@
 							"port": "5000",
 							"path": [
 								"vehicles",
-								"popularintown"
+								"lastweekvehicles"
 							],
 							"query": [
 								{
@@ -360,7 +341,12 @@
 								},
 								{
 									"key": "location",
-									"value": "bekasi"
+									"value": "bekasi",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "4"
 								}
 							]
 						}
@@ -392,17 +378,17 @@
 								},
 								{
 									"key": "user_id",
-									"value": "dasd",
+									"value": "3",
 									"type": "default"
 								},
 								{
 									"key": "vehicle_id",
-									"value": "afs",
+									"value": "10",
 									"type": "default"
 								},
 								{
 									"key": "prepayment",
-									"value": "",
+									"value": "0",
 									"type": "default"
 								},
 								{
@@ -464,17 +450,17 @@
 								},
 								{
 									"key": "user_id",
-									"value": "dasd",
+									"value": "1",
 									"type": "default"
 								},
 								{
 									"key": "vehicle_id",
-									"value": "afs",
+									"value": "14",
 									"type": "default"
 								},
 								{
 									"key": "prepayment",
-									"value": "",
+									"value": "0",
 									"type": "default"
 								},
 								{
@@ -516,7 +502,7 @@
 							"variable": [
 								{
 									"key": "history_id",
-									"value": ""
+									"value": "1"
 								}
 							]
 						}
@@ -582,7 +568,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/history?page=1&limit=10",
+							"raw": "http://localhost:5000/history?search=cinta&page=1&limit=5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -594,8 +580,7 @@
 							"query": [
 								{
 									"key": "search",
-									"value": "cinta",
-									"disabled": true
+									"value": "cinta"
 								},
 								{
 									"key": "page",
@@ -603,7 +588,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "10"
+									"value": "5"
 								}
 							]
 						}
@@ -669,7 +654,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/history/byname/?search=cinta",
+							"raw": "http://localhost:5000/history/byname/?search=hiras",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -693,7 +678,7 @@
 								},
 								{
 									"key": "search",
-									"value": "cinta"
+									"value": "hiras"
 								}
 							]
 						}
@@ -798,17 +783,22 @@
 							"urlencoded": [
 								{
 									"key": "fullName",
-									"value": "Agus Hitler",
+									"value": "Hiras Parasian",
 									"type": "default"
 								},
 								{
 									"key": "email",
-									"value": "hitler2@nasi.edu",
+									"value": "hiraspds@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "username",
+									"value": "hiraspds",
 									"type": "default"
 								},
 								{
 									"key": "password",
-									"value": "hitler123",
+									"value": "hiras123",
 									"type": "default"
 								},
 								{
@@ -1008,7 +998,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/users",
+							"raw": "http://localhost:5000/users?page=2&limit=8&search=",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1016,6 +1006,20 @@
 							"port": "5000",
 							"path": [
 								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "limit",
+									"value": "8"
+								},
+								{
+									"key": "search",
+									"value": ""
+								}
 							]
 						}
 					},
@@ -1197,6 +1201,308 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "LOGIN",
+			"item": [
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fullName",
+									"value": "Hiras Parasian",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "18810111@unai.edu",
+									"type": "default"
+								},
+								{
+									"key": "username",
+									"value": "hiraspds1",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "hiras123",
+									"type": "default"
+								},
+								{
+									"key": "gender",
+									"value": "Male",
+									"type": "default"
+								},
+								{
+									"key": "address",
+									"value": "bekasi",
+									"type": "default"
+								},
+								{
+									"key": "mobileNumber",
+									"value": "0813889811222",
+									"type": "default"
+								},
+								{
+									"key": "birthDate",
+									"value": "1999/01/01",
+									"type": "default"
+								},
+								{
+									"key": "displayName",
+									"value": "Hiras",
+									"type": "default"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": "/E:/FazzTrack/Week 3/1621300126385.jfif"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "user123",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "user123",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "hiraspds@gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "hiras123",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/auth/verify",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "hiras123",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "hiras123",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "bill@mail.com",
+									"type": "default"
+								},
+								{
+									"key": "code",
+									"value": "9909",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "hiras321",
+									"type": "default"
+								},
+								{
+									"key": "confirmPassword",
+									"value": "hiras32",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/forgotPassword",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"forgotPassword"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "hiras123",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "hiras123",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Email Verify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "hirastech@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "code",
+									"value": "2887",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "hiras321",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "confirmPassword",
+									"value": "hiras321",
+									"type": "default",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/emailVerify",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"emailVerify"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "hiras123",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "hiras123",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
