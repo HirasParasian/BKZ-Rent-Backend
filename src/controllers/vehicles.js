@@ -5,6 +5,8 @@ const upload = require("../helpers/upload").single("image")
 const fs = require("fs")
 const response = require("../helpers/response")
 
+
+// READ VEHICLES
 const readVehicles = async (req, res) => {
   let { search, page, limit, sort, order } = req.query
   sort = sort || "v.createdAt"
@@ -35,39 +37,31 @@ const readVehicles = async (req, res) => {
   if (results.length > 0) {
     return response(res, "List Vehicle", processedResult, 200, pageInfo)
   }
-  return res.status(404).json({
-    success: false,
-    message: "List not found"
-  })
+  return response(res, "List Vehicle Not Found", null, 404)
 }
 
-const searchVehicles = (req, res) => {
+//SEARCH VEHICLES 
+
+const searchVehicles = async (req, res) => {
   const { vehicleId } = req.params
-  vehicleModel.searchVehicles(vehicleId, results => {
-    if (results.length > 0) {
-      fs.rm(results[0].image, {}, function (err) {
-        if (err) {
-          return res.status(500).json({
-            success: false,
-            message: "File not found"
-          })
-        }
-        const data = results[0]
-        return res.json({
-          success: true,
-          message: "Detail Vehicle",
-          results: data[0]
+  const results = vehicleModel.searchVehicles(vehicleId)
+  if (results.length > 0) {
+    fs.rm(results[0].image, {}, function (err) {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: "File not found"
         })
-      })
-    } else {
-      return res.status(404).json({
-        success: false,
-        message: "Vehicle not found"
-      })
-    }
-  })
+      }
+      const data = results[0]
+      return response(res, "List Vehicle", data, 200)
+    })
+  } else {
+    return response(res, "List Not Found", null, 404)
+  }
 }
 
+//CREATE 
 const createVehicles = (req, res) => {
   upload(req, res, function (err) {
     if (err) {
