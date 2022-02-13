@@ -63,41 +63,45 @@ const searchVehicles = async (req, res) => {
 
 //CREATE VEHICLES
 const createVehicles = async (req, res) => {
-  upload(req, res, function (err) {
-    if (err) {
-      return response(res, err.message, null, 400)
-    }
-    const newData = {
-      ...req.body
-    }
-    if (req.file) {
-      newData.image = req.file.path
-    }
-    if (validate.validateVehicles(newData) == "") {
-      vehicleModel.getName(newData.name, (result) => {
-        if (result.length == 0) {
-          const results = vehicleModel.createVehicles(newData)
-          if (results.affectedRows > 1) {
-            vehicleModel.searchVehicles(results.insertId, (fin) => {
-              const mapResults = fin.map(o => {
-                if (o.image !== null) {
-                  o.image = `${APP_URL}/${o.image}`
-                }
-                return o
+  if (req.user.role === "admin") {
+    upload(req, res, function (err) {
+      if (err) {
+        return response(res, err.message, null, 400)
+      }
+      const newData = {
+        ...req.body
+      }
+      if (req.file) {
+        newData.image = req.file.path
+      }
+      if (validate.validateVehicles(newData) == "") {
+        vehicleModel.getName(newData.name, (result) => {
+          if (result.length == 0) {
+            const results = vehicleModel.createVehicles(newData)
+            if (results.affectedRows > 1) {
+              vehicleModel.searchVehicles(results.insertId, (fin) => {
+                const mapResults = fin.map(o => {
+                  if (o.image !== null) {
+                    o.image = `${APP_URL}/${o.image}`
+                  }
+                  return o
+                })
+                return response(res, "New Vehicle Created", mapResults[0], 200)
               })
-              return response(res, "New Vehicle Created", mapResults[0], 200)
-            })
+            } else {
+              return response(res, "Failed Create New Vehicle", null, 400)
+            }
           } else {
-            return response(res, "Failed Create New Vehicle", null, 400)
+            return response(res, "Name has Already Used", null, 400)
           }
-        } else {
-          return response(res, "Name has Already Used", null, 400)
-        }
-      })
-    } else {
-      return response(res, "Data Vehicle was not valid", null, 200, null, validate.validateVehicles(newData))
-    }
-  })
+        })
+      } else {
+        return response(res, "Data Vehicle was not valid", null, 200, null, validate.validateVehicles(newData))
+      }
+    })
+  }else{
+    return response(res, "You Are Not Admin", null, 403, null)
+  }
 }
 
 
@@ -114,8 +118,8 @@ const updateVehicles = async (req, res) => {
       if (req.body[field]) {
         data[field] = req.body[field]
       }
-      console.log(data)
     })
+
     try {
       const resultUpdate = await vehicleModel.updateVehiclesAsync(data, vehicleId)
       console.log(resultUpdate)
@@ -125,8 +129,9 @@ const updateVehicles = async (req, res) => {
         return response(res, "Update Success", fetchNew[0])
       }
     } catch (err) {
-      return response(res, "Unexpected Error", null, 400)
+      return response(res, "Invalid Input ", null, 400)
     }
+
   } else {
     return res.status(400).json({
       success: false,
