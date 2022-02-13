@@ -1,8 +1,10 @@
 const response = require("../helpers/response")
 const userModel = require("../models/users")
+const forgotModel = require("../models/forgotRequest")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const { APP_SECRET } = process.env
+const mail = require("../helpers/mail")
+const { APP_SECRET, APP_EMAIL } = process.env
 
 exports.login = async (req, res) => {
   const { username, password } = req.body
@@ -27,8 +29,7 @@ exports.login = async (req, res) => {
 }
 
 exports.verify = (req, res) => {
-  // return response(res, 'Headers', { headers: req.headers });
-  const auth = req.headers.authorization // Bearer djihasuiodhasoid
+  const auth = req.headers.authorization
   if (auth.startsWith("Bearer")) {
     const token = auth.split(" ")[1]
     if (token) {
@@ -41,6 +42,69 @@ exports.verify = (req, res) => {
       } catch (err) {
         return response(res, "User not verified!", null, 403)
       }
+    }
+  }
+}
+
+exports.forgotPassword = async (req, res) => {
+  const { email, code, password, confirmPassword } = req.body
+  if (!code) {
+    const user = await userModel.getUserByUsername(email)
+
+    if (user.length === 1) {
+      const randomCode = Math.round(Math.random() * (9999 - 1000) + 1000)
+      const reset = await forgotModel.createRequest(user[0].UserId, randomCode)
+      if (reset.affectedRows >= 1) {
+        const info = await mail.sendMail({
+          from: APP_EMAIL,
+          to: email,
+          subject: "Reset Your Password | Backend Beginner",
+          text: String(randomCode),
+          html: `<b>${randomCode}</b>`
+        })
+        console.log(info.messageId)
+        return response(res, "Forgot Password request has been sent to your email!")
+      } else {
+        return response(res, "Unexpected Error", null, 500)
+      }
+    } else {
+      return response(res, "If you registered, reset password code will sended to your email!")
+    }
+  } else {
+    if (email) {
+      const result = await forgotModel.getRequest(code)
+      console.log(result)
+      if (result.length === 1) {
+        if (result[0].isExpired) {
+          return response(res, "Expired code", null, 400)
+        }
+        const user = await userModel.getUserById(result[0].userId)
+        if (user[0].email === email) {
+          if (password) {
+            if (password === confirmPassword) {
+              const salt = await bcrypt.genSalt(10)
+              const hash = await bcrypt.hash(password, salt)
+              const update = await userModel.updateUser({ password: hash }, user[0].userId)
+              if (update.affectedRows === 1) {
+                await forgotModel.updateRequest({ isExpired: 1 }, result[0].id)
+                return response(res, "Password Has Been Reset!")
+              } else {
+                return response(res, "Reset Password Failed", null, 500)
+              }
+            } else {
+              return response(res, "Confirm Password Not Same as Password", null, 400)
+            }
+          } else {
+            return response(res, "Null Password Detected", null, 400)
+          }
+        } else {
+          return response(res, "Invalid Email", null, 400)
+        }
+      } else {
+        return response(res, "Invalid code", null, 400)
+      }
+    } else {
+      return response(res, "You have to provide Confirmation Code", null, 400)
     }
   }
 }

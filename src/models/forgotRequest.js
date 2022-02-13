@@ -1,16 +1,22 @@
 const db = require("../helpers/db")
 
 exports.createRequest = (userId, code) => new Promise((resolve, reject) => {
-  db.query("INSERT INTO forgot_password (userId,code) VALUES (?,?)", [userId, code], (err, res) => {
+  db.query("INSERT INTO forgot_password (userId, code) VALUES (?,?)", [userId, code], (err, res) => {
+    if (err) reject(err)
+    resolve(res)
+  })
+})
+
+exports.updateRequest = (data, id) => new Promise((resolve, reject) => {
+  db.query("UPDATE `forgot_password` SET ? WHERE id=?", [data, id], (err, res) => {
     if (err) reject(err)
     resolve(res)
   })
 })
 
 exports.getRequest = (code) => new Promise((resolve, reject) => {
-  db.query("SELECT * FROM forgot_password WHERE code=?"), [code], (err, res) => {
+  db.query("SELECT * FROM forgot_password WHERE code=?", [code], (err, res) => {
     if (err) reject(err)
     resolve(res)
-  }
+  })
 })
-

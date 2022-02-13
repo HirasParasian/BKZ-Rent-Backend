@@ -75,9 +75,23 @@ exports.profileUsers = (userId, cb) => {
 }
 
 exports.getUserByUsername = (username) => new Promise((resolve, reject) => {
-  db.query("SELECT UserId, username, password FROM users WHERE username=?", [username], (err, res) => {
+  db.query("SELECT UserId,email username, password FROM users WHERE username=? OR email=?", [username, username], (err, res) => {
     if (err) reject(err)
     resolve(res)
   })
 })
 // console.log(query.sql)
+
+exports.getUserById = (userId) => new Promise((resolve, reject) => {
+  db.query("SELECT userId, username, email, password FROM users WHERE userId=?", [userId], (err, res) => {
+    if (err) reject(err)
+    resolve(res)
+  })
+
+  exports.updateUser = (data, userId) => new Promise((resolve, reject) => {
+    db.query("UPDATE `users` SET ? WHERE userId=?", [data, userId], (err, res) => {
+      if (err) reject(err)
+      resolve(res)
+    })
+  })
+})
