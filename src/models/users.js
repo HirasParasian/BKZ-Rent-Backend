@@ -75,12 +75,21 @@ exports.profileUsers = (userId, cb) => {
 }
 
 exports.getUserByUsername = (username) => new Promise((resolve, reject) => {
-  db.query("SELECT UserId,email username, password FROM users WHERE username=? OR email=?", [username, username], (err, res) => {
+  const query = db.query("SELECT UserId,email username, password, role, emailVerify FROM users WHERE username=? OR email=?", [username, username], (err, res) => {
     if (err) reject(err)
     resolve(res)
+    console.log(query.sql)
   })
 })
-// console.log(query.sql)
+
+exports.getRoleByUsername = (username) => new Promise((resolve, reject) => {
+  const query = db.query("SELECT role FROM users WHERE username=? OR email=?", [username, username], (err, res) => {
+    if (err) reject(err)
+    resolve(res)
+    console.log(query.sql)
+  })
+})
+
 
 exports.getUserById = (userId) => new Promise((resolve, reject) => {
   db.query("SELECT userId, username, email, password FROM users WHERE userId=?", [userId], (err, res) => {

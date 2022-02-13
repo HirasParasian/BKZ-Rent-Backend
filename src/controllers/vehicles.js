@@ -63,7 +63,7 @@ const searchVehicles = async (req, res) => {
 
 //CREATE VEHICLES
 const createVehicles = async (req, res) => {
-  if (req.user.role === "admin") {
+  if (req.user.role === "admin" || req.user.role === "supervisor") {
     upload(req, res, function (err) {
       if (err) {
         return response(res, err.message, null, 400)
@@ -99,8 +99,8 @@ const createVehicles = async (req, res) => {
         return response(res, "Data Vehicle was not valid", null, 200, null, validate.validateVehicles(newData))
       }
     })
-  }else{
-    return response(res, "You Are Not Admin", null, 403, null)
+  } else {
+    return response(res, "You Are Not Admin or Supervisor", null, 403, null)
   }
 }
 
