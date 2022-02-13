@@ -5,43 +5,39 @@ const upload = require("../helpers/upload").single("image")
 const fs = require("fs")
 const response = require("../helpers/response")
 
-const readVehicles = (req, res) => {
-  let { search, page, limit } = req.query
+const readVehicles = async (req, res) => {
+  let { search, page, limit, sort, order } = req.query
+  sort = sort || "v.createdAt"
+  order = order || "DESC"
   search = search || ""
-  page = Number(page) || 1
-  limit = Number(limit) || 5
+  page = ((page != null && page !== "") ? Number(page) : 1)
+  limit = ((limit != null && limit !== "") ? Number(limit) : 5)
   let offset = (page - 1) * limit
-  const data = { search, limit, offset }
+  const data = { search, limit, offset, sort, order }
 
-  vehicleModel.readVehicles(data, (results) => {
-    const processedResult = results.map((obj) => {
-      if (obj.image !== null) {
-        obj.image = `${APP_URL}/${obj.image}`
-      }
-      return obj
-    })
-    vehicleModel.countVehicles(data, (count) => {
-      const { total } = count[0]
-      const last = Math.ceil(total / limit)
-      if (results.length > 0) {
-        return res.status(200).json({
-          success: true,
-          message: "List Vehicles",
-          results: processedResult,
-          pageInfo: {
-            prev: page > 1 ? `http://localhost:5000/vehicles?page=${page - 1}` : null,
-            next: page < last ? `http://localhost:5000/vehicles?page=${page + 1}` : null,
-            totalData: total,
-            currentPage: page,
-            lastPage: last
-          }
-        })
-      }
-      return res.status(404).json({
-        success: false,
-        message: "List not found"
-      })
-    })
+  const results = await vehicleModel.readVehiclesAsync(data)
+  const count = await vehicleModel.countVehiclesAsync(data)
+  const processedResult = results.map((obj) => {
+    if (obj.image !== null) {
+      obj.image = `${APP_URL}/${obj.image}`
+    }
+    return obj
+  })
+  const { total } = count[0]
+  const last = Math.ceil(total / limit)
+  const pageInfo = {
+    prev: page > 1 ? `http://localhost:5000/vehicles?page=${page - 1}` : null,
+    next: page < last ? `http://localhost:5000/vehicles?page=${page + 1}` : null,
+    totalData: total,
+    currentPage: page,
+    lastPage: last
+  }
+  if (results.length > 0) {
+    return response(res, "List Vehicle", processedResult, 200, pageInfo)
+  }
+  return res.status(404).json({
+    success: false,
+    message: "List not found"
   })
 }
 
