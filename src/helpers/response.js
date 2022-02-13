@@ -1,4 +1,5 @@
-const response = (res, message, results, stats = 200, pageInfo) => {
+// const validate = require("../helpers/validate")
+const response = (res, message, results, stats = 200, pageInfo, error) => {
   let success = true
   if (stats) {
     if (stats >= 400) {
@@ -9,6 +10,7 @@ const response = (res, message, results, stats = 200, pageInfo) => {
   let data = {
     success,
     message,
+    error
   }
 
   if (results) {
@@ -17,6 +19,7 @@ const response = (res, message, results, stats = 200, pageInfo) => {
   if (pageInfo) {
     data.pageInfo = pageInfo
   }
+
 
   return res.status(stats).json(data)
 }

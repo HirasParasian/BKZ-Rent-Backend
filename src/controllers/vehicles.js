@@ -44,7 +44,7 @@ const readVehicles = async (req, res) => {
 
 const searchVehicles = async (req, res) => {
   const { vehicleId } = req.params
-  const results = vehicleModel.searchVehicles(vehicleId)
+  const results = await vehicleModel.searchVehiclesAsync(vehicleId)
   if (results.length > 0) {
     fs.rm(results[0].image, {}, function (err) {
       if (err) {
@@ -61,14 +61,11 @@ const searchVehicles = async (req, res) => {
   }
 }
 
-//CREATE 
-const createVehicles = (req, res) => {
+//CREATE VEHICLES
+const createVehicles = async (req, res) => {
   upload(req, res, function (err) {
     if (err) {
-      return res.status(400).json({
-        success: false,
-        message: err.message
-      })
+      return response(res, err.message, null, 400)
     }
     const newData = {
       ...req.body
@@ -79,7 +76,8 @@ const createVehicles = (req, res) => {
     if (validate.validateVehicles(newData) == "") {
       vehicleModel.getName(newData.name, (result) => {
         if (result.length == 0) {
-          vehicleModel.createVehicles(newData, (results) => {
+          const results = vehicleModel.createVehicles(newData)
+          if (results.affectedRows > 1) {
             vehicleModel.searchVehicles(results.insertId, (fin) => {
               const mapResults = fin.map(o => {
                 if (o.image !== null) {
@@ -87,26 +85,17 @@ const createVehicles = (req, res) => {
                 }
                 return o
               })
-              return res.send({
-                success: true,
-                message: "Vehicle data created!",
-                results: mapResults[0]
-              })
+              return response(res, "New Vehicle Created", mapResults[0], 200)
             })
-          })
+          } else {
+            return response(res, "Failed Create New Vehicle", null, 400)
+          }
         } else {
-          return res.status(400).json({
-            success: false,
-            message: "Name has already used"
-          })
+          return response(res, "Name has Already Used", null, 400)
         }
       })
     } else {
-      return res.status(400).json({
-        success: false,
-        message: "Data User was not valid",
-        error: validate.validateVehicles(newData)
-      })
+      return response(res, "Data Vehicle was not valid", null, 200, null, validate.validateVehicles(newData))
     }
   })
 }
