@@ -1,7 +1,9 @@
 const usersModel = require("../models/users")
+const { APP_URL } = process.env
 const validate = require("../helpers/validate")
 const bcrypt = require("bcrypt")
 const response = require("../helpers/response")
+const upload = require("../helpers/upload").single("images")
 
 const readUsers = (req, res) => {
   let { search, page, limit, userId } = req.query
@@ -81,6 +83,54 @@ const createUsers = async (req, res) => {
       message: "Email has already used"
     })
   }
+}
+
+const register = async (req, res) => {
+  upload(req, res, function (err) {
+    if (err) {
+      return response(res, "error", null, 400)
+    }
+    const newData = {
+      ...req.body
+    }
+    if (req.file) {
+      newData.images = req.file.path
+    }
+    if (validate.validateUsers(newData) == "") {
+      usersModel.getEmail(newData.email, (result) => {
+        if (result.length == 0) {
+          usersModel.getUsername(newData.username, (result) => {
+            if (result.length == 0) {
+              usersModel.getPhone(newData.mobileNumber, (result) => {
+                if (result.length == 0) {
+                  usersModel.createUsers(newData, (results) => {
+                    usersModel.searchUsers(results.insertId, (fin) => {
+                      const mapResults = fin.map(o => {
+                        if (o.images !== null) {
+                          o.images = `${APP_URL}/${o.images}`
+                        }
+                        return o
+                      })
+                      return response(res, "Register Successfully", mapResults[0], 200)
+                    })
+                  })
+                } else {
+                  return response(res, "Mobile Number has Already Used", null, 400)
+                }
+              })
+            } else {
+              return response(res, "Username has Already Used", null, 400)
+            }
+          })
+
+        } else {
+          return response(res, "Email has Already Used", null, 400)
+        }
+      })
+    } else {
+      return response(res, "Data Vehicle was not valid", null, 200, null, validate.validateUsers(newData))
+    }
+  })
 }
 
 const updateUsers = (req, res) => {
@@ -195,5 +245,6 @@ module.exports = {
   createUsers,
   updateUsers,
   deleteUsers,
-  profileUsers
+  profileUsers,
+  register
 }

@@ -5,12 +5,14 @@ const { readUsers,
   createUsers,
   updateUsers,
   deleteUsers,
-  profileUsers
+  profileUsers,
+  register
 } = require("../controllers/users")
 
 users.get("/", readUsers)
 users.get("/:displayName", searchUsers)
 users.post("/", createUsers)
+users.post("/register", register)
 users.patch("/:userId", updateUsers)
 users.delete("/:userId", deleteUsers)
 users.get("/profile/:userId", profileUsers)

@@ -61,10 +61,10 @@ exports.validateUsers = (data) => {
     result = { ...result, mobileNumber: "Invalid Input Mobile Number" }
   }
   if (birthDate == null || birthDate == "") {
-    result = { ...result, birthDate: "Invalid Input Mobile Birth Date" }
+    result = { ...result, birthDate: "Invalid Input Birth Date" }
   }
   if (displayName == null || displayName == "") {
-    result = { ...result, displayName: "Invalid Input Mobile Display Name" }
+    result = { ...result, displayName: "Invalid Input Display Name" }
   }
   return result
 }

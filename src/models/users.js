@@ -17,6 +17,21 @@ exports.getEmail = (email, cb) => {
   })
 }
 
+exports.getUsername = (username, cb) => {
+  db.query("select username from users where username=?", [username], (err, res) => {
+    if (err) throw err
+    cb(res)
+  })
+}
+
+exports.getPhone = (mobileNumber, cb) => {
+  db.query("select username from users where mobileNumber=?", [mobileNumber], (err, res) => {
+    if (err) throw err
+    cb(res)
+  })
+}
+
+
 exports.getEmailAsync = (email) => new Promise((resolve, reject) => {
   db.query("select email from users where email=?", [email], (err, res) => {
     if (err) reject(err)
@@ -53,10 +68,11 @@ exports.createUsersAsync = (data) => new Promise((resolve, reject) => {
 })
 
 exports.updateUsers = (userId, update, cb) => {
-  db.query("UPDATE users SET ? WHERE  userId=?", [update, userId], (err, results) => {
+  const query = db.query("UPDATE users SET ? WHERE  userId=?", [update, userId], (err, results) => {
     if (err) throw err
     cb(results)
   })
+  console.log(query.sql)
 }
 
 exports.deleteUsers = (userId, cb) => {

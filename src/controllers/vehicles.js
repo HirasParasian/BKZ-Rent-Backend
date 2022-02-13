@@ -77,8 +77,7 @@ const createVehicles = async (req, res) => {
       if (validate.validateVehicles(newData) == "") {
         vehicleModel.getName(newData.name, (result) => {
           if (result.length == 0) {
-            const results = vehicleModel.createVehicles(newData)
-            if (results.affectedRows > 1) {
+            vehicleModel.createVehicles(newData, (results) => {
               vehicleModel.searchVehicles(results.insertId, (fin) => {
                 const mapResults = fin.map(o => {
                   if (o.image !== null) {
@@ -86,11 +85,13 @@ const createVehicles = async (req, res) => {
                   }
                   return o
                 })
-                return response(res, "New Vehicle Created", mapResults[0], 200)
+                return res.send({
+                  success: true,
+                  message: "Vehicle data created!",
+                  results: mapResults[0]
+                })
               })
-            } else {
-              return response(res, "Failed Create New Vehicle", null, 400)
-            }
+            })
           } else {
             return response(res, "Name has Already Used", null, 400)
           }

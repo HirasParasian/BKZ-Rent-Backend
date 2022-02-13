@@ -15,7 +15,8 @@ const fileFilter = (req, file, cb) => {
   const supportedMime = [
     "image/jpeg",
     "image/png",
-    "image/gif"
+    "image/gif",
+    "image/jfif"
   ]
   if (!supportedMime.includes(file.mimetype)) {
     cb(new Error("Filetype mismatch!"), false)
