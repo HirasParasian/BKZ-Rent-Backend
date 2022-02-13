@@ -9,35 +9,39 @@ const response = require("../helpers/response")
 // READ VEHICLES
 const readVehicles = async (req, res) => {
   let { search, page, limit, sort, order } = req.query
-  sort = sort || "v.createdAt"
+  sort = sort || "name"
   order = order || "DESC"
   search = search || ""
   page = ((page != null && page !== "") ? Number(page) : 1)
   limit = ((limit != null && limit !== "") ? Number(limit) : 5)
   let offset = (page - 1) * limit
-  const data = { search, limit, offset, sort, order }
-
-  const results = await vehicleModel.readVehiclesAsync(data)
-  const count = await vehicleModel.countVehiclesAsync(data)
-  const processedResult = results.map((obj) => {
-    if (obj.image !== null) {
-      obj.image = `${APP_URL}/${obj.image}`
+  const data = { search, limit, offset, sort, order, page }
+  if (validate.validationPageInfoAsync(data) == "") {
+    const results = await vehicleModel.readVehiclesAsync(data)
+    const count = await vehicleModel.countVehiclesAsync(data)
+    const processedResult = results.map((obj) => {
+      if (obj.image !== null) {
+        obj.image = `${APP_URL}/${obj.image}`
+      }
+      return obj
+    })
+    const { total } = count[0]
+    const last = Math.ceil(total / limit)
+    const pageInfo = {
+      prev: page > 1 ? `http://localhost:5000/vehicles?page=${page - 1}` : null,
+      next: page < last ? `http://localhost:5000/vehicles?page=${page + 1}` : null,
+      totalData: total,
+      currentPage: page,
+      lastPage: last
     }
-    return obj
-  })
-  const { total } = count[0]
-  const last = Math.ceil(total / limit)
-  const pageInfo = {
-    prev: page > 1 ? `http://localhost:5000/vehicles?page=${page - 1}` : null,
-    next: page < last ? `http://localhost:5000/vehicles?page=${page + 1}` : null,
-    totalData: total,
-    currentPage: page,
-    lastPage: last
+    if (results.length > 0) {
+      return response(res, "List Vehicle", processedResult, 200, pageInfo)
+    }
+    return response(res, "List Vehicle Not Found", null, 404)
+  } else {
+    return response(res, "List Vehicle", null, 200, null, validate.validationPageInfoAsync(data))
   }
-  if (results.length > 0) {
-    return response(res, "List Vehicle", processedResult, 200, pageInfo)
-  }
-  return response(res, "List Vehicle Not Found", null, 404)
+
 }
 
 //SEARCH VEHICLES 

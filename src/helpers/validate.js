@@ -98,3 +98,39 @@ exports.validateHistory = (data) => {
 
   return result
 }
+
+exports.validationPageInfoAsync = (pageInfo) => {
+  var result = ""
+  const { page, limit } = pageInfo
+
+  if (isNaN(Number(page))) {
+    result = { ...result, page: "Invalid Input Page" }
+  } else if (page <= 0) {
+    result = { ...result, page: "Page must > 0." }
+  }
+
+  if (isNaN(Number(limit))) {
+    result = { ...result, limit: "Invalid Input Limit" }
+  } else if (limit <= 0) {
+    result = { ...result, limit: "Limit must > 0." }
+  }
+  return result
+}
+
+// exports.validationPageInfoAsync = (pageInfo) => new Promise ((resolve)=>{
+//   var result = ""
+//   const { page, limit } = pageInfo
+
+//   if (Number(parseInt(page))) {
+//     resolve (result = { ...result, page: "Invalid Input Page" })
+//   } else if (page == 0) {
+//     resolve (result = { ...result, page: "Page must be grather then 0." })
+//   }
+
+//   if (Number(parseInt(limit))) {
+//     resolve (result = { ...result, limit: "Invalid Input Limit" })
+//   } else if (limit == 0) {
+//     resolve (result = { ...result, limit: "Limit must be grather than 0." })
+//   }
+  
+// }) 
