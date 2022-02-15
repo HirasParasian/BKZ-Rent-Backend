@@ -112,40 +112,57 @@ const createVehicles = async (req, res) => {
 
 
 const updateVehicles = async (req, res) => {
-
-  const { vehicleId } = req.params
-  const result = await vehicleModel.searchVehiclesAsync(vehicleId)
-  if (result.length >= 1) {
-    const data = {}
-    // console.log(data)
-    const fillable = ["name", "price", "description", "location", "category", "isAvailable", "stock", "image"]
-    fillable.forEach(field => {
-      if (req.body[field]) {
-        data[field] = req.body[field]
+  if (req.user.role === "admin" || req.user.role === "supervisor") {
+    upload(req, res, async function (err) {
+      if (err) {
+        return response(res, err.message, null, 400)
       }
-    })
+      const { vehicleId } = req.params
+      const result = await vehicleModel.searchVehiclesAsync(vehicleId)
+      if (result.length >= 1) {
 
-    try {
-      const resultUpdate = await vehicleModel.updateVehiclesAsync(data, vehicleId)
-      console.log(resultUpdate)
-      if (resultUpdate.affectedRows) {
-        const fetchNew = await vehicleModel.searchVehiclesAsync(vehicleId)
-        console.log(fetchNew)
-        return response(res, "Update Success", fetchNew[0])
+        const data = {}
+        // console.log(data)
+        const fillable = ["name", "price", "description", "location", "category", "isAvailable", "stock"]
+        fillable.forEach(field => {
+          if (req.body[field]) {
+            if (req.file) {
+              data["image"] = req.file.path
+            }
+            data[field] = req.body[field]
+          }
+        })
+
+        try {
+          const resultUpdate = await vehicleModel.updateVehiclesAsync(data, vehicleId)
+          console.log(resultUpdate)
+          if (resultUpdate.affectedRows) {
+            const result = await vehicleModel.searchVehiclesAsync(vehicleId)
+            console.log(result)
+            if (result.length > 0) {
+              result.map((field) => {
+                if (field.image !== null) {
+                  field.image = `${APP_URL}/${field.image}`
+                }
+                return field
+              })
+            }
+            return response(res, "Update Success", result[0])
+          }
+        } catch (err) {
+          return response(res, "Invalid Input ", null, 400)
+        }
+
+      } else {
+        return res.status(400).json({
+          success: false,
+          message: "Unexpected data",
+          result
+        })
       }
-    } catch (err) {
-      return response(res, "Invalid Input ", null, 400)
-    }
-
-  } else {
-    return res.status(400).json({
-      success: false,
-      message: "Unexpected data",
-      result
     })
   }
 }
-
 
 const deleteVehicles = (req, res) => {
   const { vehicleId } = req.params

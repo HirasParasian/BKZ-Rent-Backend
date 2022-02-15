@@ -69,6 +69,25 @@ exports.validateUsers = (data) => {
   return result
 }
 
+exports.validateRegister = (data) => {
+  var result = ""
+  const { fullName, email, password, mobileNumber } = data
+  if (fullName == null || fullName == "") {
+    result = { ...result, fullName: "Invalid Input Full Name" }
+  }
+  if (email == null || email == "") {
+    result = { ...result, email: "Invalid Input email" }
+  }
+  if (password == null || password == "") {
+    result = { ...result, password: "Invalid Input password" }
+  }
+  
+  if (mobileNumber == null || mobileNumber == "") {
+    result = { ...result, mobileNumber: "Invalid Input Mobile Number" }
+  }
+
+  return result
+}
 exports.validateHistory = (data) => {
   var result = ""
   const { userId, vehicleId, rentStartDate, rentEndDate, prepayment } = data

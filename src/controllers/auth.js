@@ -156,7 +156,7 @@ exports.emailVerify = async (req, res) => {
         if (user[0].email === email) {
           await emailModel.updateRequest({ isExpired: 1 }, result[0].id)
           await emailModel.updateVerify(result[0].userId)
-          return response(res, "Email Verify")
+          return response(res, "Email Verify Success")
         } else {
           return response(res, "Invalid Email", null, 400)
         }

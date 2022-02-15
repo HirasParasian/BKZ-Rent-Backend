@@ -97,7 +97,7 @@ const register = async (req, res) => {
     if (req.file) {
       newData.images = req.file.path
     }
-    if (validate.validateUsers(newData) == "") {
+    if (validate.validateRegister(newData) == "") {
       usersModel.getEmail(newData.email, (result) => {
         if (result.length == 0) {
           usersModel.getUsername(newData.username, (result) => {
@@ -106,13 +106,14 @@ const register = async (req, res) => {
                 if (result.length == 0) {
                   usersModel.createUsers(newData, (results) => {
                     usersModel.searchUsers(results.insertId, (fin) => {
+                      // eslint-disable-next-line no-unused-vars
                       const mapResults = fin.map(o => {
                         if (o.images !== null) {
                           o.images = `${APP_URL}/${o.images}`
                         }
                         return o
                       })
-                      return response(res, "Register Successfully", mapResults[0], 200)
+                      return response(res, "Register Successfully", null, 200)
                     })
                   })
                 } else {
@@ -129,7 +130,7 @@ const register = async (req, res) => {
         }
       })
     } else {
-      return response(res, "Data Vehicle was not valid", null, 200, null, validate.validateUsers(newData))
+      return response(res, "Data  was not valid", null, 200, null, validate.validateUsers(newData))
     }
   })
 }
