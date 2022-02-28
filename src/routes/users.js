@@ -10,7 +10,7 @@ const { readUsers,
 } = require("../controllers/users")
 
 users.get("/", readUsers)
-users.get("/:displayName", searchUsers)
+users.get("/:userId", searchUsers)
 users.post("/", createUsers)
 users.post("/register", register)
 users.patch("/:userId", updateUsers)
