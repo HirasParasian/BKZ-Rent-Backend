@@ -1,6 +1,6 @@
 const historyModel = require("../models/history")
 const validate = require("../helpers/validate")
-
+const { APP_URL } = process.env
 
 const readHistory = (req, res) => {
   let { search, page, limit } = req.query
@@ -15,13 +15,19 @@ const readHistory = (req, res) => {
       const { total } = count[0]
       const last = Math.ceil(total / limit)
       if (results.length > 0) {
+        const processedResult = results.map((obj) => {
+          if (obj.image !== null) {
+            obj.image = `${APP_URL}/${obj.image}`
+          }
+          return obj
+        })
         return res.status(200).json({
           success: true,
           message: "List History",
-          results: results,
+          results: processedResult,
           pageInfo: {
-            prev: page > 1 ? `http://localhost:5000/vehicles?page=${page - 1}` : null,
-            next: page < last ? `http://localhost:5000/vehicles?page=${page + 1}` : null,
+            prev: page > 1 ? `http://localhost:5000/history?page=${page - 1}&limit=${limit}&search=${search}` : null,
+            next: page < last ? `http://localhost:5000/history?page=${page + 1}&limit=${limit}&search=${search}` : null,
             totalData: total,
             currentPage: page,
             lastPage: last

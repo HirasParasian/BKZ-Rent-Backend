@@ -1,7 +1,7 @@
 const db = require("../helpers/db")
 
 exports.readHistory = (data, cb) => {
-  db.query(`SELECT h.historyId,u.fullName,v.name AS vehicle,c.name AS category,v.price AS price,h.rentStartDate,h.rentEndDate,
+  db.query(`SELECT h.historyId,u.fullName,v.name AS vehicle,v.image,v.price * 20/100 AS prepayment,c.name AS category,v.price AS price,h.rentStartDate,h.rentEndDate,
               DATEDIFF(h.rentEndDate, h.rentStartDate)AS days ,v.price * DATEDIFF(h.rentEndDate, h.rentStartDate) AS totalPrice 
               FROM history h JOIN users u on h.userId = u.userId JOIN vehicles v on h.vehicleId = v.vehicleId 
               JOIN category c on v.category = c.categoryId WHERE u.fullName LIKE "%${data.search}%" ORDER by h.historyId 
