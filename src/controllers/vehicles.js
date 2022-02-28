@@ -2,20 +2,20 @@ const vehicleModel = require("../models/vehicles")
 const validate = require("../helpers/validate")
 const { APP_URL } = process.env
 const upload = require("../helpers/upload").single("image")
-const fs = require("fs")
 const response = require("../helpers/response")
 
 
 // READ VEHICLES
 const readVehicles = async (req, res) => {
-  let { search, page, limit, sort, order } = req.query
+  let { search, page, limit, sort, order, category, vehicleId } = req.query
   sort = sort || "name"
   order = order || "DESC"
   search = search || ""
+  category = category || ""
   page = ((page != null && page !== "") ? Number(page) : 1)
-  limit = ((limit != null && limit !== "") ? Number(limit) : 5)
+  limit = ((limit != null && limit !== "") ? Number(limit) : 4)
   let offset = (page - 1) * limit
-  const data = { search, limit, offset, sort, order, page }
+  const data = { search, limit, offset, sort, order, page, category, vehicleId }
   if (validate.validationPageInfoAsync(data) == "") {
     const results = await vehicleModel.readVehiclesAsync(data)
     const count = await vehicleModel.countVehiclesAsync(data)
@@ -28,8 +28,8 @@ const readVehicles = async (req, res) => {
     const { total } = count[0]
     const last = Math.ceil(total / limit)
     const pageInfo = {
-      prev: page > 1 ? `http://localhost:5000/vehicles?page=${page - 1}` : null,
-      next: page < last ? `http://localhost:5000/vehicles?page=${page + 1}` : null,
+      prev: page > 1 ? `http://localhost:5000/vehicles?search=${search}&category=${category}&page=${page - 1}&limit=${limit}&sort=${sort}` : null,
+      next: page < last ? `http://localhost:5000/vehicles?search=${search}&category=${category}&page=${page + 1}&limit=${limit}&sort=${sort}` : null,
       totalData: total,
       currentPage: page,
       lastPage: last
@@ -47,19 +47,17 @@ const readVehicles = async (req, res) => {
 //SEARCH VEHICLES 
 
 const searchVehicles = async (req, res) => {
-  const { vehicleId } = req.params
+  const { vehicleId } = req.query
   const results = await vehicleModel.searchVehiclesAsync(vehicleId)
+  console.log(results)
   if (results.length > 0) {
-    fs.rm(results[0].image, {}, function (err) {
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: "File not found"
-        })
+    const processedResult = results.map((obj) => {
+      if (obj.image !== null) {
+        obj.image = `${APP_URL}/${obj.image}`
       }
-      const data = results[0]
-      return response(res, "List Vehicle", data, 200)
+      return obj
     })
+    return response(res, "List Vehicle", processedResult, 200)
   } else {
     return response(res, "List Not Found", null, 404)
   }
@@ -85,7 +83,7 @@ const createVehicles = async (req, res) => {
               vehicleModel.searchVehicles(results.insertId, (fin) => {
                 const mapResults = fin.map(o => {
                   if (o.image !== null) {
-                    o.image = `${APP_URL}/${o.image}`
+                    o.image = `/uploads/${req.file.filename}`
                   }
                   return o
                 })
@@ -222,22 +220,28 @@ const popularInTownVehicles = (req, res) => {
   let { search, page, limit, location } = req.query
   search = search || ""
   page = Number(page) || 1
-  limit = Number(limit) || 5
+  limit = Number(limit) || 4
   let offset = (page - 1) * limit
   const data = { location, search, limit, offset }
 
   vehicleModel.popularInTownVehicles(data, (results) => {
     vehicleModel.countPopularVehiclesInTown(data, (count) => {
+      const processedResult = results.map((obj) => {
+        if (obj.image !== null) {
+          obj.image = `${APP_URL}/${obj.image}`
+        }
+        return obj
+      })
       const { total } = count[0]
       const last = Math.ceil(total / limit)
       if (results.length > 0) {
         return res.status(200).json({
           success: true,
           message: "List Vehicles",
-          results: results,
+          results: processedResult,
           pageInfo: {
-            prev: page > 1 ? `http://localhost:5000/vehicles?page=${page - 1}` : null,
-            next: page < last ? `http://localhost:5000/vehicles?page=${page + 1}` : null,
+            prev: page > 1 ? `http://localhost:5000/vehicles/popularintown?search=&location=&page=${page - 1}` : null,
+            next: page < last ? `http://localhost:5000/vehicles/popularintown?search=&location=&page=${page + 1}` : null,
             totalData: total,
             currentPage: page,
             lastPage: last

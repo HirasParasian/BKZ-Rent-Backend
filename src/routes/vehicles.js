@@ -15,7 +15,7 @@ const {
 } = require("../controllers/vehicles")
 
 vehicles.get("/", readVehicles)
-vehicles.get("/search", searchVehicles)
+vehicles.get("/id", searchVehicles)
 vehicles.post("/", verifyUser, createVehicles)
 vehicles.patch("/:vehicleId", verifyUser, updateVehicles)
 vehicles.delete("/:vehicleId", verifyUser, deleteVehicles)

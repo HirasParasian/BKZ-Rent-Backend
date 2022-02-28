@@ -8,16 +8,40 @@ exports.countVehicles = (data, cb) => {
   })
 }
 exports.countVehiclesAsync = (data) => new Promise((resolve, reject) => {
-  db.query(`SELECT COUNT (*) as total FROM vehicles v JOIN category c on v.category = c.categoryId WHERE v.name LIKE "${data.search}%" 
-    OR c.name LIKE '%${data.search}%'`, (err, res) => {
+  // const query = 
+  db.query(`SELECT COUNT (*) as total FROM vehicles v JOIN category c on v.category = c.categoryId WHERE v.name LIKE "%${data.search}%" 
+  AND v.category LIKE '%${data.category}%'`, (err, res) => {
     if (err) reject(err)
     resolve(res)
+    // console.log(query.sql)
+  })
+})
+
+exports.readVehiclesAsync = (data) => new Promise((resolve, reject) => {
+  // const query =
+  db.query(`SELECT v.vehicleId, v.name, v.price, v.description, v.location, v.createdAt, c.name as category, v.stock, v.image 
+            FROM vehicles v JOIN category c on v.category = c.categoryId WHERE v.name LIKE "%${data.search}%" 
+          AND v.category LIKE '%${data.category}%'  ORDER BY ${data.sort} ${data.order} LIMIT ${data.limit} OFFSET ${data.offset}`, (err, res) => {
+    if (err) reject(err)
+    resolve(res)
+    // console.log(query.sql)
+  })
+})
+
+exports.readVehiclesByIdAsync = (data) => new Promise((resolve, reject) => {
+  // const query =
+  db.query(`SELECT v.vehicleId, v.name, v.price, v.description, v.location, c.name as category, v.stock, v.image 
+            FROM vehicles v JOIN category c on v.category = c.categoryId WHERE v.vehicleId LIKE "%${data.vehicleId}%" 
+            `, (err, res) => {
+    if (err) reject(err)
+    resolve(res)
+    // console.log(query.sql)
   })
 })
 
 exports.countPopularVehiclesInTown = (data, cb) => {
   db.query(`SELECT COUNT(*) as total FROM history h JOIN vehicles v WHERE v.name LIKE "${data.search}%" 
-            AND v.location LIKE "${data.location}%" AND v.vehicleId = h.vehicleId`, (err, res) => {
+            AND v.location LIKE "%${data.location}%" AND v.vehicleId = h.vehicleId`, (err, res) => {
     if (err) throw err
     cb(res)
   })
@@ -25,7 +49,7 @@ exports.countPopularVehiclesInTown = (data, cb) => {
 
 exports.countPopularVehiclesInTownAsync = (data) => new Promise((resolve, reject) => {
   db.query(`SELECT COUNT(*) as total FROM history h JOIN vehicles v WHERE v.name LIKE "${data.search}%" 
-            AND v.location LIKE "${data.location}%" AND v.vehicleId = h.vehicleId`, (err, res) => {
+            AND v.location LIKE "%${data.location}%" AND v.vehicleId = h.vehicleId`, (err, res) => {
     if (err) reject(err)
     resolve(res)
   })
@@ -34,20 +58,12 @@ exports.countPopularVehiclesInTownAsync = (data) => new Promise((resolve, reject
 exports.readVehicles = (data, cb) => {
   db.query(`SELECT v.vehicleId, v.name, v.price, v.description, v.location, c.name as category, v.stock, v.image 
               FROM vehicles v JOIN category c on v.category = c.categoryId WHERE v.name LIKE "${data.search}%" 
-              OR c.name LIKE '%${data.search}%' ORDER BY ${data.sort} ${data.order} LIMIT ${data.limit} OFFSET ${data.offset}`, (err, res) => {
+              OR vehicleId LIKE '${data.search}' ORDER BY ${data.sort} ${data.order} LIMIT ${data.limit} OFFSET ${data.offset}`, (err, res) => {
     if (err) throw err
     cb(res)
   })
 }
 
-exports.readVehiclesAsync = (data) => new Promise((resolve, reject) => {
-  db.query(`SELECT v.vehicleId, v.name, v.price, v.description, v.location, c.name as category, v.stock, v.image 
-            FROM vehicles v JOIN category c on v.category = c.categoryId WHERE v.name LIKE "${data.search}%" 
-            OR c.name LIKE '%${data.search}%' ORDER BY ${data.sort} ${data.order} LIMIT ${data.limit} OFFSET ${data.offset}`, (err, res) => {
-    if (err) reject(err)
-    resolve(res)
-  })
-})
 
 exports.searchVehicles = (vehicleId, cb) => {
   db.query("SELECT * FROM vehicles WHERE vehicleId=?", [vehicleId], (err, res) => {
@@ -57,10 +73,11 @@ exports.searchVehicles = (vehicleId, cb) => {
 }
 
 exports.searchVehiclesAsync = (vehicleId) => new Promise((resolve, reject) => {
-  db.query("SELECT * FROM vehicles WHERE vehicleId=?", [vehicleId], (err, res) => {
+  const query = db.query("SELECT * FROM vehicles WHERE vehicleId=?", [vehicleId], (err, res) => {
     if (err) reject(err)
     resolve(res)
   })
+  console.log(query.sql)
 })
 
 exports.createVehicles = (data, cb) => {
@@ -138,8 +155,8 @@ exports.getNameAsync = (name) => new Promise((resolve, reject) => {
 })
 
 exports.popularInTownVehicles = (data, cb) => {
-  db.query(`SELECT v.vehicleId,v.name,v.location, COUNT(*) as total 
-              FROM history h JOIN vehicles v WHERE name LIKE "${data.search}%" AND location LIKE "${data.location}%" 
+  db.query(`SELECT v.vehicleId,v.name,v.location,v.image, COUNT(*) as total 
+              FROM history h JOIN vehicles v WHERE name LIKE "%${data.search}%" AND location LIKE "%${data.location}%" 
               AND v.vehicleId = h.vehicleId GROUP BY h.vehicleId ORDER BY total DESC LIMIT ${data.limit} OFFSET ${data.offset}`, (error, res) => {
     if (error) throw error
     cb(res)
