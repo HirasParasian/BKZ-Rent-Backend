@@ -15,16 +15,22 @@ const readUsers = (req, res) => {
 
   usersModel.readUsers(data, (results) => {
     usersModel.countUsers(data, (count) => {
+      const processedResult = results.map((obj) => {
+        if (obj.images !== null) {
+          obj.images = `${APP_URL}/${obj.images}`
+        }
+        return obj
+      })
       const { total } = count[0]
       const last = Math.ceil(total / limit)
       if (results.length > 0) {
         return res.status(200).json({
           success: true,
           message: "List User",
-          results: results,
+          results: processedResult,
           pageInfo: {
-            prev: page > 1 ? `http://localhost:5000/vehicles?page=${page - 1}` : null,
-            next: page < last ? `http://localhost:5000/vehicles?page=${page + 1}` : null,
+            prev: page > 1 ? `http://localhost:5000/users?page=${page - 1}&limit=${limit}` : null,
+            next: page < last ? `http://localhost:5000/users?page=${page + 1}&limit=${limit}` : null,
             totalData: total,
             currentPage: page,
             lastPage: last
@@ -38,6 +44,7 @@ const readUsers = (req, res) => {
     })
   })
 }
+
 
 
 const searchUsers = (req, res) => {
@@ -62,27 +69,55 @@ const searchUsers = (req, res) => {
 }
 
 
-const createUsers = async (req, res) => {
-  const { fullName, username, email, password: plainPassword, gender, address, mobileNumber, birthDate, displayName, images } = req.body
-  const salt = await bcrypt.genSalt(10)
-  const password = await bcrypt.hash(plainPassword, salt)
-  const result = await usersModel.getEmailAsync({ email })
-  if (result.length == 0) {
-    const results = await usersModel.createUsersAsync({ fullName, username, email, password, gender, address, mobileNumber, birthDate, displayName, images })
-    if (results.affectedRows > 0) {
-      return response(res, "User created successfully!", result[0], 200)
+const createUsers = (req, res) => {
+  upload(req, res, async function () {
+    const {
+      fullName, role, username, email, password: plainPassword, gender, address, mobileNumber, birthDate, displayName, images: images
+    } = req.body
+    if (req.file) {
+      req.body.images = req.file.path
+    }
+    const salt = await bcrypt.genSalt(10)
+    const password = await bcrypt.hash(plainPassword, salt)
+
+    if (req.file) {
+      req.body.images = req.file.path
+    }
+    const result = await usersModel.getEmailAsync(email)
+    if (result.length == 0) {
+      const result = await usersModel.getUsernameAsync(username)
+      if (result.length == 0) {
+        const results = await usersModel.createUsersAsync({ fullName, role, username, email, password, gender, address, mobileNumber, birthDate, displayName, images })
+        if (results.affectedRows > 0) {
+          usersModel.searchUsers(results.insertId, (fin) => {
+            // eslint-disable-next-line no-unused-vars
+            const mapResults = fin.map(o => {
+              if (o.images !== null) {
+                o.images = `${APP_URL}/${o.images}`
+              }
+              return o
+            })
+            return response(res, "Register Successfully", null, 200)
+          })
+        } else {
+          return res.status(500).json({
+            success: false,
+            message: "Data Users failed to create"
+          })
+        }
+      } else {
+        return res.status(400).json({
+          success: false,
+          message: "Username has already used"
+        })
+      }
     } else {
-      return res.status(500).json({
+      return res.status(400).json({
         success: false,
-        message: "Data Users failed to create"
+        message: "Email has already used"
       })
     }
-  } else {
-    return res.status(400).json({
-      success: false,
-      message: "Email has already used"
-    })
-  }
+  })
 }
 
 const register = async (req, res) => {

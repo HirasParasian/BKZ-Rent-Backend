@@ -5,8 +5,11 @@ module.exports = {
     "node": true
   },
   "extends": "eslint:recommended",
+  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
   },
   "rules": {
     "indent": [
@@ -26,4 +29,5 @@ module.exports = {
       "never"
     ]
   }
+
 }

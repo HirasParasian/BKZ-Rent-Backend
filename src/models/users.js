@@ -1,13 +1,20 @@
 const db = require("../helpers/db")
 
 exports.readUsers = (data, cb) => {
-  db.query(`SELECT userId, fullName, gender, address, mobileNumber, birthDate, displayName  
-              FROM users WHERE fullName LIKE "%${data.search}%" 
+  const query = db.query(`SELECT userId,email, fullName, gender, address, mobileNumber, birthDate,images, displayName  
+              FROM users WHERE fullName LIKE "%${data.search}%" AND userId LIKE "%${data.userId}%" 
               LIMIT ${data.limit} OFFSET ${data.offset}`, (err, res) => {
     if (err) throw err
     cb(res)
   })
+  console.log(query.sql)
+}
 
+exports.countUsers = (data, cb) => {
+  db.query(`SELECT COUNT (*) as total FROM users WHERE fullName LIKE "%${data.search}%" AND userId LIKE "%${data.userId}%" `, (err, res) => {
+    if (err) throw err
+    cb(res)
+  })
 }
 
 exports.getEmail = (email, cb) => {
@@ -39,12 +46,13 @@ exports.getEmailAsync = (email) => new Promise((resolve, reject) => {
   })
 })
 
-exports.countUsers = (data, cb) => {
-  db.query(`SELECT COUNT (*) as total FROM users WHERE fullName LIKE "%${data.search}%"`, (err, res) => {
-    if (err) throw err
-    cb(res)
+exports.getUsernameAsync = (username) => new Promise((resolve, reject) => {
+  db.query("select username from users where username=?", [username], (err, res) => {
+    if (err) reject(err)
+    resolve(res)
   })
-}
+})
+
 
 exports.searchUsers = (userId, cb) => {
   db.query("SELECT * FROM users WHERE userId=?", [userId], (err, res) => {
