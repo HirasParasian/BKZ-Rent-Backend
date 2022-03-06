@@ -132,41 +132,37 @@ const register = async (req, res) => {
     if (req.file) {
       newData.images = req.file.path
     }
-    if (validate.validateRegister(newData) == "") {
-      usersModel.getEmail(newData.email, (result) => {
-        if (result.length == 0) {
-          usersModel.getUsername(newData.username, (result) => {
-            if (result.length == 0) {
-              usersModel.getPhone(newData.mobileNumber, (result) => {
-                if (result.length == 0) {
-                  usersModel.createUsers(newData, (results) => {
-                    usersModel.searchUsers(results.insertId, (fin) => {
-                      // eslint-disable-next-line no-unused-vars
-                      const mapResults = fin.map(o => {
-                        if (o.images !== null) {
-                          o.images = `${APP_URL}/${o.images}`
-                        }
-                        return o
-                      })
-                      return response(res, "Register Successfully", null, 200)
+    usersModel.getEmail(newData.email, (result) => {
+      if (result.length == 0) {
+        usersModel.getUsername(newData.username, (result) => {
+          if (result.length == 0) {
+            usersModel.getPhone(newData.mobileNumber, (result) => {
+              if (result.length == 0) {
+                usersModel.createUsers(newData, (results) => {
+                  usersModel.searchUsers(results.insertId, (fin) => {
+                    // eslint-disable-next-line no-unused-vars
+                    const mapResults = fin.map(o => {
+                      if (o.images !== null) {
+                        o.images = `${APP_URL}/${o.images}`
+                      }
+                      return o
                     })
+                    return response(res, "Register Successfully", null, 200)
                   })
-                } else {
-                  return response(res, "Mobile Number has Already Used", null, 400)
-                }
-              })
-            } else {
-              return response(res, "Username has Already Used", null, 400)
-            }
-          })
+                })
+              } else {
+                return response(res, "Mobile Number has Already Used", null, 400)
+              }
+            })
+          } else {
+            return response(res, "Username has Already Used", null, 400)
+          }
+        })
 
-        } else {
-          return response(res, "Email has Already Used", null, 400)
-        }
-      })
-    } else {
-      return response(res, "Data  was not valid", null, 200, null, validate.validateUsers(newData))
-    }
+      } else {
+        return response(res, "Email has Already Used", null, 400)
+      }
+    })
   })
 }
 

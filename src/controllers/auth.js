@@ -18,14 +18,9 @@ exports.login = async (req, res) => {
       const fin = await bcrypt.compare(password, hash)
       if (fin) {
         const data = { userId: result[0].userId }
-        if (result[0].role === "admin") {
-          data.role = "admin"
-        }
-        if (result[0].role === "supervisor") {
-          data.role = "supervisor"
-        }
         const token = jwt.sign(data, APP_SECRET)
-        return response(res, "Login success!", { token })
+        console.log(token)
+        return response(res, "Login success!", [token])
       } else {
         return response(res, "Wrong username or password1!", null, 403)
       }
@@ -43,13 +38,16 @@ exports.verify = (req, res) => {
     const token = auth.split(" ")[1]
     if (token) {
       try {
-        if (jwt.verify(token, APP_SECRET)) {
+        const payload = jwt.verify(token, APP_SECRET)
+        req.user = payload
+        console.log(token)
+        if (payload) {
           return response(res, "User verified!")
         } else {
-          return response(res, "User not verified!", null, 403)
+          return response(res, "User not verified!", null, null, null, 403)
         }
       } catch (err) {
-        return response(res, "User not verified!", null, 403)
+        return response(res, "User not verified!", null, null, null, 403)
       }
     }
   }

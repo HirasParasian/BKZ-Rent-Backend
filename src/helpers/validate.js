@@ -57,9 +57,6 @@ exports.validateUsers = (data) => {
   if (address == null || address == "") {
     result = { ...result, address: "Invalid Input address" }
   }
-  if (mobileNumber == null || mobileNumber == "") {
-    result = { ...result, mobileNumber: "Invalid Input Mobile Number" }
-  }
   if (birthDate == null || birthDate == "") {
     result = { ...result, birthDate: "Invalid Input Birth Date" }
   }
