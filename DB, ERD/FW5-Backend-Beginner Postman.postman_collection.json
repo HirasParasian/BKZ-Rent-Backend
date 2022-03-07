@@ -82,27 +82,27 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "",
+									"value": "Toyota Avanza",
 									"type": "text"
 								},
 								{
 									"key": "price",
-									"value": "asda",
+									"value": "350000",
 									"type": "text"
 								},
 								{
 									"key": "description",
-									"value": "Blue",
+									"value": "",
 									"type": "default"
 								},
 								{
 									"key": "location",
-									"value": "Yogyakarta",
+									"value": "Depok",
 									"type": "default"
 								},
 								{
 									"key": "category",
-									"value": "2",
+									"value": "1",
 									"type": "default"
 								},
 								{
@@ -118,7 +118,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/C:/Users/hiras/Downloads/bugati.jpg"
+									"src": "/C:/Users/hiras/Downloads/Toyota Avanza.jpg"
 								}
 							],
 							"options": {
@@ -145,12 +145,18 @@
 						"method": "PATCH",
 						"header": [],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+							"mode": "formdata",
+							"formdata": [
 								{
-									"key": "isAvailable",
-									"value": "0",
-									"type": "default"
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/hiras/Downloads/bugati.jpg"
+								},
+								{
+									"key": "stock",
+									"value": "3",
+									"type": "default",
+									"disabled": true
 								}
 							],
 							"options": {
@@ -173,7 +179,7 @@
 							"variable": [
 								{
 									"key": "vehicle_id",
-									"value": "3"
+									"value": "12"
 								}
 							]
 						}
@@ -219,7 +225,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/vehicles?page=9&limit=&search=&sort=&order=DESC",
+							"raw": "{{baseURL}}/vehicles?page=2&limit=2&search=&sort=createdAt&category=",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -229,11 +235,11 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "9"
+									"value": "2"
 								},
 								{
 									"key": "limit",
-									"value": ""
+									"value": "2"
 								},
 								{
 									"key": "search",
@@ -241,11 +247,21 @@
 								},
 								{
 									"key": "sort",
-									"value": ""
+									"value": "createdAt"
 								},
 								{
 									"key": "order",
-									"value": "DESC"
+									"value": "ASC",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": ""
+								},
+								{
+									"key": "vehicleId",
+									"value": "",
+									"disabled": true
 								}
 							]
 						}
@@ -258,20 +274,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/vehicles/popular/",
+							"raw": "{{baseURL}}/vehicles/id?vehicleId=99",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"vehicles",
-								"popular",
-								""
+								"id"
 							],
 							"query": [
 								{
-									"key": "search",
-									"value": "beat",
-									"disabled": true
+									"key": "vehicleId",
+									"value": "99"
 								}
 							]
 						}
@@ -284,7 +298,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/vehicles/popularintown?location=bekasi&page=1&limit=5",
+							"raw": "http://localhost:5000/vehicles/popularintown?search=&page=2&location=",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -297,20 +311,20 @@
 							"query": [
 								{
 									"key": "search",
-									"value": "beat",
+									"value": ""
+								},
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "limit",
+									"value": "5",
 									"disabled": true
 								},
 								{
 									"key": "location",
-									"value": "bekasi"
-								},
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "5"
+									"value": ""
 								}
 							]
 						}
@@ -323,7 +337,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/vehicles/lastweekvehicles?page=4",
+							"raw": "http://localhost:5000/vehicles/lastweekvehicles",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -346,7 +360,31 @@
 								},
 								{
 									"key": "page",
-									"value": "4"
+									"value": "4",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchbyid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/vehicles?vehicleId=66",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"vehicles"
+							],
+							"query": [
+								{
+									"key": "vehicleId",
+									"value": "66"
 								}
 							]
 						}
@@ -568,7 +606,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/history?search=cinta&page=1&limit=5",
+							"raw": "http://localhost:5000/history?search=&page=&limit=2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -580,15 +618,15 @@
 							"query": [
 								{
 									"key": "search",
-									"value": "cinta"
+									"value": ""
 								},
 								{
 									"key": "page",
-									"value": "1"
+									"value": ""
 								},
 								{
 									"key": "limit",
-									"value": "5"
+									"value": "2"
 								}
 							]
 						}
@@ -654,7 +692,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/history/byname/?search=hiras",
+							"raw": "http://localhost:5000/history/byname/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -678,7 +716,8 @@
 								},
 								{
 									"key": "search",
-									"value": "hiras"
+									"value": "hiras",
+									"disabled": true
 								}
 							]
 						}
@@ -779,21 +818,21 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+							"mode": "formdata",
+							"formdata": [
 								{
 									"key": "fullName",
-									"value": "Hiras Parasian",
+									"value": "Hiras Parasian Doloksaribu",
 									"type": "default"
 								},
 								{
-									"key": "email",
-									"value": "hiraspds@gmail.com",
+									"key": "role",
+									"value": "1",
 									"type": "default"
 								},
 								{
 									"key": "username",
-									"value": "hiraspds",
+									"value": "hiraspds08222",
 									"type": "default"
 								},
 								{
@@ -802,34 +841,39 @@
 									"type": "default"
 								},
 								{
+									"key": "email",
+									"value": "hirasp2ds@aga1mail.com",
+									"type": "default"
+								},
+								{
 									"key": "gender",
-									"value": "Male",
+									"value": "1",
 									"type": "default"
 								},
 								{
 									"key": "address",
-									"value": "Berlin",
+									"value": "Bekasi",
 									"type": "default"
 								},
 								{
 									"key": "mobileNumber",
-									"value": "086721347642",
+									"value": "081388981122",
 									"type": "default"
 								},
 								{
 									"key": "birthDate",
-									"value": "1999/01/08",
+									"value": "1999/08/08",
 									"type": "default"
 								},
 								{
 									"key": "displayName",
-									"value": "Hitlerr",
+									"value": "Hiras P",
 									"type": "default"
 								},
 								{
 									"key": "images",
-									"value": "profil.png",
-									"type": "default"
+									"type": "file",
+									"src": "/E:/FazzTrack/Week 6/fw5-responsive-website/assets/images/profil-edward.png"
 								}
 							],
 							"options": {
@@ -998,7 +1042,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/users?page=2&limit=8&search=",
+							"raw": "http://localhost:5000/users?userId=",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1010,15 +1054,22 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "2"
+									"value": "1",
+									"disabled": true
 								},
 								{
 									"key": "limit",
-									"value": "8"
+									"value": "6",
+									"disabled": true
+								},
+								{
+									"key": "userId",
+									"value": ""
 								},
 								{
 									"key": "search",
-									"value": ""
+									"value": null,
+									"disabled": true
 								}
 							]
 						}
@@ -1106,6 +1157,84 @@
 									"key": "user_id",
 									"value": "1"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PROFIL Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "fullName",
+									"value": "Hiras Parasian",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "hirasparasian@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "hiras123",
+									"type": "default"
+								},
+								{
+									"key": "gender",
+									"value": "M",
+									"type": "default"
+								},
+								{
+									"key": "address",
+									"value": "Bekasi",
+									"type": "default"
+								},
+								{
+									"key": "mobileNumber",
+									"value": "081388981122",
+									"type": "default"
+								},
+								{
+									"key": "birthDate",
+									"value": "08/11/99",
+									"type": "default"
+								},
+								{
+									"key": "displayName",
+									"value": "Hiras",
+									"type": "default"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "default",
+									"disabled": true
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"profile"
 							]
 						}
 					},
@@ -1215,17 +1344,18 @@
 							"formdata": [
 								{
 									"key": "fullName",
-									"value": "Hiras Parasian",
-									"type": "default"
+									"value": "Hiras Parasian Doloksaribu",
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "email",
-									"value": "18810111@unai.edu",
+									"value": "hiraspdsss@gmail.com",
 									"type": "default"
 								},
 								{
 									"key": "username",
-									"value": "hiraspds1",
+									"value": "hiraskun123",
 									"type": "default"
 								},
 								{
@@ -1245,8 +1375,9 @@
 								},
 								{
 									"key": "mobileNumber",
-									"value": "0813889811222",
-									"type": "default"
+									"value": "0813888811221",
+									"type": "default",
+									"disabled": true
 								},
 								{
 									"key": "birthDate",
@@ -1261,7 +1392,12 @@
 								{
 									"key": "images",
 									"type": "file",
-									"src": "/E:/FazzTrack/Week 3/1621300126385.jfif"
+									"src": "/E:/FazzTrack/Week 6/fw5-responsive-website/assets/images/profil-edward.png"
+								},
+								{
+									"key": "role",
+									"value": "1",
+									"type": "default"
 								}
 							],
 							"options": {
@@ -1295,12 +1431,12 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "user123",
+									"value": "hiraskun123",
 									"type": "default"
 								},
 								{
 									"key": "password",
-									"value": "user123",
+									"value": "hiras123",
 									"type": "default"
 								}
 							]
@@ -1370,22 +1506,22 @@
 							"urlencoded": [
 								{
 									"key": "email",
-									"value": "bill@mail.com",
+									"value": "gixepa9630@balaket.com",
 									"type": "default"
 								},
 								{
 									"key": "code",
-									"value": "9909",
+									"value": "7553",
 									"type": "default"
 								},
 								{
 									"key": "password",
-									"value": "hiras321",
+									"value": "hiras123",
 									"type": "default"
 								},
 								{
 									"key": "confirmPassword",
-									"value": "hiras32",
+									"value": "hiras123",
 									"type": "default"
 								}
 							]
@@ -1425,12 +1561,12 @@
 							"urlencoded": [
 								{
 									"key": "email",
-									"value": "hirastech@gmail.com",
+									"value": "gixepa9630@balaket.com",
 									"type": "default"
 								},
 								{
 									"key": "code",
-									"value": "2887",
+									"value": "6612",
 									"type": "default"
 								},
 								{
