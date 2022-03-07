@@ -57,7 +57,7 @@ const searchVehicles = async (req, res) => {
       }
       return obj
     })
-    return response(res, "List Vehicle", processedResult, 200)
+    return response(res, "List Vehicle", processedResult[0], 200)
   } else {
     return response(res, "List Not Found", null, 404)
   }

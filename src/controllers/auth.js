@@ -20,7 +20,7 @@ exports.login = async (req, res) => {
         const data = { userId: result[0].userId }
         const token = jwt.sign(data, APP_SECRET)
         console.log(token)
-        return response(res, "Login success!", [token])
+        return response(res, "Login success!", { token })
       } else {
         return response(res, "Wrong username or password1!", null, 403)
       }
@@ -57,10 +57,10 @@ exports.forgotPassword = async (req, res) => {
   const { email, code, password, confirmPassword } = req.body
   if (!code) {
     const user = await userModel.getUserByUsername(email)
-
+    console.log(user[0])
     if (user.length === 1) {
       const randomCode = Math.round(Math.random() * (9999 - 1000) + 1000)
-      const reset = await forgotModel.createRequest(user[0].UserId, randomCode)
+      const reset = await forgotModel.createRequest(user[0].userId, randomCode)
       if (reset.affectedRows >= 1) {
         const info = await mail.sendMail({
           from: APP_EMAIL,
@@ -87,13 +87,14 @@ exports.forgotPassword = async (req, res) => {
         }
         const user = await userModel.getUserById(result[0].userId)
         if (user[0].email === email) {
+          console.log(user[0].email)
           if (password) {
             if (password === confirmPassword) {
               const salt = await bcrypt.genSalt(10)
               const hash = await bcrypt.hash(password, salt)
               const update = await userModel.updateUser({ password: hash }, user[0].userId)
               if (update.affectedRows === 1) {
-                await forgotModel.updateRequest({ isExpired: 1 }, result[0].id)
+                await forgotModel.updateRequest({ isExpired: 1 }, result[0].userId)
                 return response(res, "Password Has Been Reset!")
               } else {
                 return response(res, "Reset Password Failed", null, 500)

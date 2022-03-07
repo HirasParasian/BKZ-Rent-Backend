@@ -37,10 +37,11 @@ exports.searchHistory = (historyId, cb) => {
 }
 
 exports.createHistory = (data, cb) => {
-  db.query("INSERT INTO history SET ?", [data], (err, res) => {
+  const query = db.query("INSERT INTO history SET ?", [data], (err, res) => {
     if (err) throw err
     cb(res)
   })
+  console.log(query.sql)
 }
 
 exports.updateHistory = (historyId, update, cb) => {

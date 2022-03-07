@@ -1,23 +1,23 @@
 const response = require("../helpers/response")
-const profileModel = require('../models/profile');
+const myHistoryeModel = require('../models/myHistory');
 const jwt_decode = require("jwt-decode");
 const { APP_URL } = process.env
 
-const getProfile = async (req, res) => {
+const getMyHistory = async (req, res) => {
   try {
     let { userId } = req.userData
     console.log(userId)
     console.log(req.userData)
 
-    const results = await profileModel.getProfileAsync(userId);
+    const results = await myHistoryeModel.getMyHistoryAsync(userId);
     const processedResult = results.map((obj) => {
-      if (obj.images !== null) {
-        obj.images = `${APP_URL}/${obj.images}`
+      if (obj.image !== null) {
+        obj.image = `${APP_URL}/${obj.image}`
       }
       return obj
     })
     if (results) {
-      response(res, 'profile', processedResult[0]);
+      response(res, 'My History', processedResult);
     } else {
       response(res, 'data not found', null, null, 404);
     }
@@ -26,4 +26,4 @@ const getProfile = async (req, res) => {
   }
 };
 
-module.exports = { getProfile };
+module.exports = { getMyHistory };

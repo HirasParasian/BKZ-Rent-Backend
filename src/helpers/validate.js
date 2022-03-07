@@ -106,11 +106,7 @@ exports.validateHistory = (data) => {
   if (rentEndDate == null || rentEndDate == "") {
     result = { ...result, rentEndDate: "  Start Rent End date" }
   }
-  if (prepayment == null || prepayment == "") {
-    result = { ...result, prepayment: "Invalid Input Prepayment" }
-  } else if (isNaN(Number(prepayment))) {
-    result = { ...result, prepayment: "Invalid Input Prepayment" }
-  }
+
 
   return result
 }
