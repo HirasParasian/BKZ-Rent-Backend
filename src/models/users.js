@@ -52,7 +52,12 @@ exports.getUsernameAsync = (username) => new Promise((resolve, reject) => {
     resolve(res)
   })
 })
-
+exports.searchUser2 = (data, cb) => {
+  db.query(`SELECT userId, username, email FROM users WHERE username = '${data.username}' AND email ='${data.email}'`, (err, res) => {
+    if (err) throw err;
+    cb(res);
+  });
+};
 
 exports.searchUsers = (userId, cb) => {
   db.query("SELECT * FROM users WHERE userId=?", [userId], (err, res) => {
@@ -67,6 +72,21 @@ exports.createUsers = (data, cb) => {
     cb(res)
   })
 }
+
+exports.searchUserAsyn = (data) => new Promise((resolve, reject) => {
+  db.query(`SELECT userId, username, email FROM users WHERE username = '${data.username}' AND email ='${data.email}'`, (err, res) => {
+    if (err) reject(err);
+    resolve(res);
+  });
+});
+
+exports.patchUserAsyn = (userId, data) => new Promise((resolve, reject) => {
+  const query = db.query('UPDATE users SET ? WHERE userId = ?', [data, userId], (err, res) => {
+    if (err) reject(err);
+    resolve(res);
+  });
+  console.log(query.sql)
+});
 
 exports.createUsersAsync = (data) => new Promise((resolve, reject) => {
   db.query("INSERT INTO users SET ?", [data], (err, res) => {

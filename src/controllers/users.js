@@ -175,35 +175,35 @@ const updateUsers = (req, res) => {
 
     usersModel.searchUsers(userId, (result) => {
       if (result.length > 0) {
-        if (validate.validateUsers(update) == "") {
-          usersModel.getEmail(update.email, (result) => {
-            if (result.length == 0) {
-              usersModel.updateUsers(userId, update, (results) => {
-                if (results.affectedRows > 0) {
-                  return res.status(400).json({
-                    success: false,
-                    message: "Update Successfully"
-                  })
-                } else {
-                  return res.status(400).json({
-                    success: false,
-                    message: "Update Failed"
-                  })
-                }
-              })
-            } else {
-              return res.status(400).json({
-                success: false,
-                message: "Email has already used"
-              })
-            }
-          })
-        } else {
-          return res.status(400).json({
-            success: false,
-            message: "Invalid Data Vehicle"
-          })
-        }
+        // if (validate.validateUsers(update) == "") {
+        usersModel.getEmail(update.email, (result) => {
+          if (result.length == 0) {
+            usersModel.updateUsers(userId, update, (results) => {
+              if (results.affectedRows > 0) {
+                return res.status(200).json({
+                  success: true,
+                  message: "Update Successfully"
+                })
+              } else {
+                return res.status(400).json({
+                  success: false,
+                  message: "Update Failed"
+                })
+              }
+            })
+          } else {
+            return res.status(400).json({
+              success: false,
+              message: "Email has already used"
+            })
+          }
+        })
+        // } else {
+        //   return res.status(400).json({
+        //     success: false,
+        //     message: "Invalid Data Vehicle"
+        //   })
+        // }
 
       } else {
         return res.status(400).json({
