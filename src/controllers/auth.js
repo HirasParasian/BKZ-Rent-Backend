@@ -8,7 +8,7 @@ const mail = require("../helpers/mail")
 const { APP_SECRET, APP_EMAIL } = process.env
 
 exports.login = async (req, res) => {
-  const { username, password } = req.body
+  const { username, email, password } = req.body
 
   const result = await userModel.getUserByUsername(username)
   console.log(result)
@@ -22,13 +22,13 @@ exports.login = async (req, res) => {
         console.log(token)
         return response(res, "Login success!", { token })
       } else {
-        return response(res, "Wrong username or password1!", null, 403)
+        return response(res, "Wrong Password", null, 403)
       }
     } else {
       return response(res, "Please Verify Email", null, 403)
     }
   } else {
-    return response(res, "Wrong username or password2!", null, 403)
+    return response(res, "Wrong Username or Email!", null, 403)
   }
 }
 
@@ -121,12 +121,14 @@ exports.forgotPassword = async (req, res) => {
 
 exports.emailVerify = async (req, res) => {
   const { email, code } = req.body
+  console.log("email ==" + email)
+  console.log(" code ==" + code)
   if (!code) {
     const user = await userModel.getUserByUsername(email)
-
     if (user.length === 1) {
       const randomCode = Math.round(Math.random() * (9999 - 1000) + 1000)
-      const reset = await emailModel.createRequest(user[0].UserId, randomCode)
+      const reset = await emailModel.createRequest(user[0].userId, randomCode)
+      console.log(user[0].userId)
       if (reset.affectedRows >= 1) {
         const info = await mail.sendMail({
           from: APP_EMAIL,
@@ -136,15 +138,16 @@ exports.emailVerify = async (req, res) => {
           html: `<b>${randomCode}</b>`
         })
         console.log(info.messageId)
-        return response(res, "Verify code has been sent to your email!")
+        return response(res, "Verify code has been sent to your email!", null, 200)
       } else {
         return response(res, "Unexpected Error", null, 500)
       }
     } else {
-      return response(res, "If you registered, Verify code will sended to your email!")
+      return response(res, "No Email Detected", null, 403)
     }
   } else {
     if (email) {
+      console.log(" code ==" + code)
       const result = await emailModel.getRequest(code)
       console.log(result)
       if (result.length === 1) {
@@ -165,5 +168,33 @@ exports.emailVerify = async (req, res) => {
     } else {
       return response(res, "You have to provide Verify Code", null, 400)
     }
+  }
+}
+
+exports.emailVerify2 = async (req, res) => {
+  const { email, code } = req.body
+  console.log("email ==" + email)
+  console.log(" code ==" + code)
+  if (email) {
+    console.log(" code ==" + code)
+    const result = await emailModel.getRequest(code)
+    console.log(result)
+    if (result.length === 1) {
+      if (result[0].isExpired) {
+        return response(res, "Expired code", null, 400)
+      }
+      const user = await userModel.getUserById(result[0].userId)
+      if (user[0].email === email) {
+        await emailModel.updateRequest({ isExpired: 1 }, result[0].id)
+        await emailModel.updateVerify(result[0].userId)
+        return response(res, "Email Verify Success")
+      } else {
+        return response(res, "Invalid Email", null, 400)
+      }
+    } else {
+      return response(res, "Invalid Verify code", null, 400)
+    }
+  } else {
+    return response(res, "You have to provide Verify Code", null, 400)
   }
 }

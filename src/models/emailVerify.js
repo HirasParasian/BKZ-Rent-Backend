@@ -1,10 +1,11 @@
 const db = require("../helpers/db")
 
 exports.createRequest = (userId, code) => new Promise((resolve, reject) => {
-  db.query("INSERT INTO verify_email (userId, code) VALUES (?,?)", [userId, code], (err, res) => {
+  const query = db.query("INSERT INTO verify_email (userId, code) VALUES (?,?)", [userId, code], (err, res) => {
     if (err) reject(err)
     resolve(res)
   })
+  console.log(query.sql)
 })
 
 exports.updateRequest = (data, id) => new Promise((resolve, reject) => {
