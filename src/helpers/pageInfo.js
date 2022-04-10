@@ -1,12 +1,14 @@
-const pageInfo = (data, total, page, table) => {
-  const last = Math.ceil(total / data.limit)
-  return {
-    prev: page > last ? `http://localhost:5000/${table}?page=${page - 1}` : null,
-    next: page < last ? `http://localhost:5000/${table}?page=${page + 1}` : null,
+/* eslint-disable no-console */
+const { APP_URL } = process.env;
+
+exports.pageInfo = (total, limit, page, url, route) => {
+  const last = Math.ceil(total / limit);
+  const pageInfo = {
+    prev: page > 1 ? `${APP_URL}/${route}?page=${page - 1}&${url}` : null,
+    next: page < last ? `${APP_URL}/${route}?page=${page + 1}&${url}` : null,
     totalData: total,
     currentPage: page,
-    lastPage: last
-  }
-}
-
-module.exports = { pageInfo }
+    lastPage: last,
+  };
+  return pageInfo;
+};

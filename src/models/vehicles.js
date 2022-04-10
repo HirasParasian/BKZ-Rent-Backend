@@ -7,6 +7,12 @@ exports.countVehicles = (data, cb) => {
     cb(res)
   })
 }
+exports.getProductById = (vehicleId) => new Promise((resolve, reject) => {
+  db.query(`SELECT * FROM vehicles WHERE vehicleId=${vehicleId}`, (err, res) => {
+    if (err) { reject(err); }
+    resolve(res);
+  });
+});
 exports.countVehiclesAsync = (data) => new Promise((resolve, reject) => {
   // const query = 
   db.query(`SELECT COUNT (*) as total FROM vehicles v JOIN category c on v.category = c.categoryId WHERE v.name LIKE "%${data.search}%" 
@@ -206,5 +212,25 @@ exports.countVehiclesInWeekAsync = () => new Promise((resolve, reject) => {
     resolve(res)
   })
 })
+exports.addProduct = (data) => new Promise((resolve, reject) => {
+  db.query('INSERT INTO vehicles SET ?', data, (err, res) => {
+    if (err) { reject(err); }
+    resolve(res);
+  });
+});
+exports.getProductById = (vehicleId) => new Promise((resolve, reject) => {
+  db.query(`SELECT * FROM vehicles WHERE vehicleId=${vehicleId}`, (err, res) => {
+    if (err) { reject(err); }
+    resolve(res);
+  });
+});
+
+exports.editProduct = (data, vehicleId) => new Promise((resolve, reject) => {
+  const query = db.query('UPDATE vehicles SET ? WHERE vehicleId=?', [data, vehicleId], (err, res) => {
+    if (err) { reject(err); }
+    resolve(res);
+  });
+  console.log(query.sql)
+});
 
 // select h.historyId,u.fullName,v.name as vehicle,c.name as category,v.price as price,h.rentStartDate,h.rentEndDate,DATEDIFF(h.rentEndDate, h.rentStartDate)as days ,v.price * DATEDIFF(h.rentEndDate, h.rentStartDate) as totalPrice from history h join users u on h.userId = u.userId join vehicles v on h.vehicleId = v.vehicleId join category c on v.category = c.categoryId;

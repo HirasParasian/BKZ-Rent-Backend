@@ -9,7 +9,7 @@ exports.getProfileAsync = (userId) => new Promise((resolve, reject) => {
   console.log(query.sql)
 });
 
-exports.editProfile = (userId, data) => new Promise((resolve, reject) => {
+exports.editProfile = (data,userId) => new Promise((resolve, reject) => {
   const query = db.query(
     'UPDATE users SET ? WHERE userId = ?', [data, userId], (error, res) => {
       if (error) reject(error);

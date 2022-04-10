@@ -42,6 +42,68 @@ const readHistory = (req, res) => {
   })
 }
 
+const myHistories = async (req, res) => {
+  try {
+    let { userId } = req.userData
+    const results = await historyModel.getHistoriesAsync(userId);
+    const processedResult = results.map((obj) => {
+      if (obj.image !== null) {
+        obj.image = `${APP_URL}/${obj.image}`
+      }
+      return obj
+    })
+    if (results) {
+      response(res, 'profile', processedResult[0]);
+    } else {
+      response(res, 'data not found', null, null, 404);
+    }
+  } catch (err) {
+    response(res, 'unexpected error', null, null, 500);
+  }
+};
+
+const myHistory = (req, res) => {
+  let { page, limit } = req.query
+  let { userId } = req.userData
+  search = search || ""
+  page = Number(page) || 1
+  limit = Number(limit) || 5
+  let offset = (page - 1) * limit
+  const data = { limit, offset, userId }
+
+  historyModel.readHistories(data, (results) => {
+    historyModel.countHistories(data, (count) => {
+      const { total } = count[0]
+      const last = Math.ceil(total / limit)
+      if (results.length > 0) {
+        const processedResult = results.map((obj) => {
+          if (obj.image !== null) {
+            obj.image = `${APP_URL}/${obj.image}`
+          }
+          return obj
+        })
+        return res.status(200).json({
+          success: true,
+          message: "List History",
+          results: processedResult,
+          pageInfo: {
+            prev: page > 1 ? `http://localhost:5000/history?page=${page - 1}&limit=${limit}` : null,
+            next: page < last ? `http://localhost:5000/history?page=${page + 1}&limit=${limit}` : null,
+            totalData: total,
+            currentPage: page,
+            lastPage: last
+          }
+        })
+      }
+      return res.status(404).json({
+        success: false,
+        message: "List not found"
+      })
+    })
+  })
+}
+
+
 const searchHistory = (req, res) => {
   const {
     historyId
@@ -211,5 +273,7 @@ module.exports = {
   createHistory,
   updateHistory,
   deleteHistory,
-  readHistorybyName
+  readHistorybyName,
+  myHistory,
+  myHistories
 }

@@ -13,15 +13,15 @@ exports.validateVehicles = (data) => {
   if (category == null || category == "" || category < 1 || category > 3) {
     result = { ...result, categoryId: "Invalid Input Category ID" }
   }
-  if (isAvailable == null || isAvailable == "" || isAvailable > 1 || isAvailable < 0) {
-    result = { ...result, isAvailable: "Invalid Input isAvailable" }
-  }
-  if (stock == null || stock == "" || (isNaN(Number(stock)))) {
+  // if (isAvailable == null || isAvailable == "" || isAvailable > 1 || isAvailable < 0) {
+  //   result = { ...result, isAvailable: "Invalid Input isAvailable" }
+  // }
+  if (stock == null || stock == "") {
     result = { ...result, stock: "Invalid Input stock" }
   }
-  if (image == null || image == "") {
-    result = { ...result, image: "Invalid Input image" }
-  }
+  // if (image == null || image == "") {
+  //   result = { ...result, image: "Invalid Input image" }
+  // }
 
   return result
 }
@@ -32,9 +32,9 @@ exports.validateUsers = (data) => {
   if (fullName == null || fullName == "") {
     result = { ...result, fullName: "Invalid Input Full Name" }
   }
-  if (email == null || email == "") {
-    result = { ...result, email: "Invalid Input email" }
-  }
+  // if (email == null || email == "") {
+  //   result = { ...result, email: "Invalid Input email" }
+  // }
   if (password == null || password == "") {
     result = { ...result, password: "Invalid Input password" }
   }
@@ -72,9 +72,9 @@ exports.validateRegister = (data) => {
   if (fullName == null || fullName == "") {
     result = { ...result, fullName: "Invalid Input Full Name" }
   }
-  if (email == null || email == "") {
-    result = { ...result, email: "Invalid Input email" }
-  }
+  // if (email == null || email == "") {
+  //   result = { ...result, email: "Invalid Input email" }
+  // }
   if (password == null || password == "") {
     result = { ...result, password: "Invalid Input password" }
   }

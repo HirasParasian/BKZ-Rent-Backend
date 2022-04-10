@@ -132,8 +132,6 @@ const register = async (req, res) => {
     if (req.file) {
       newData.images = req.file.path
     }
-    usersModel.getEmail(newData.email, (result) => {
-      if (result.length == 0) {
         usersModel.getUsername(newData.username, (result) => {
           if (result.length == 0) {
             usersModel.getPhone(newData.mobileNumber, (result) => {
@@ -158,11 +156,6 @@ const register = async (req, res) => {
             return response(res, "Username has Already Used", null, 400)
           }
         })
-
-      } else {
-        return response(res, "Email has Already Used", null, 400)
-      }
-    })
   })
 }
 

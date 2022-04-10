@@ -1,3 +1,4 @@
+const { query } = require("../helpers/db")
 const db = require("../helpers/db")
 
 exports.readUsers = (data, cb) => {
@@ -67,10 +68,11 @@ exports.searchUsers = (userId, cb) => {
 }
 
 exports.createUsers = (data, cb) => {
-  db.query("INSERT INTO users SET ?", [data], (err, res) => {
+  const query = db.query("INSERT INTO users SET ?", [data], (err, res) => {
     if (err) throw err
     cb(res)
   })
+  console.log(query.sql)
 }
 
 exports.searchUserAsyn = (data) => new Promise((resolve, reject) => {
@@ -148,3 +150,54 @@ exports.getUserById = (userId) => new Promise((resolve, reject) => {
     })
   })
 })
+
+exports.getProfile = (userId) => new Promise((resolve, reject) => {
+  // todo: add total order, join from transaction
+  db.query(`SELECT * FROM users WHERE userId = ?`, [userId], (error, res) => {
+    if (error) reject(error);
+    resolve(res);
+  });
+});
+
+exports.updateUsers = (userId, data) => new Promise((resolve, reject) => {
+  const query = db.query(
+    'UPDATE users SET ? WHERE userId = ?',
+    [data, userId],
+    (error, res) => {
+      if (error) reject(error);
+      resolve(res);
+    },
+    
+  );
+  console.log(query.sql)
+});
+
+exports.getUserByPhoneNumber = (data) => new Promise((resolve, reject) => {
+  let extraQuery = '';
+  if (data.userId) {
+    extraQuery += ` AND userId!=${data.userId}`;
+  }
+  db.query(`SELECT * FROM users WHERE mobileNumber='${data.mobileNumber}' ${extraQuery}`, (error, res) => {
+    if (error) reject(error);
+    resolve(res);
+  });
+});
+
+exports.getUserByEmail = (data) => new Promise((resolve, reject) => {
+  let extraQuery = '';
+  if (data.userId) {
+    extraQuery += ` AND userId!=${data.userId}`;
+  }
+  db.query(`SELECT * FROM users WHERE  email='${data.email}' ${extraQuery}`, (error, res) => {
+    if (error) reject(error);
+    resolve(res);
+  });
+});
+
+exports.getUser = (userId) => new Promise((resolve, reject) => {
+  db.query(`SELECT * FROM users
+    WHERE userId=${userId}`, (error, res) => {
+    if (error) reject(error);
+    resolve(res);
+  });
+});
