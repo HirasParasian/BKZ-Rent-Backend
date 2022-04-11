@@ -61,7 +61,12 @@ const getMyHistory = async (req, res) => {
     const count = await myHistoryeModel.countMyHistoryAsync(userId)
     const processedResult = results.map((obj) => {
       if (obj.image !== null) {
-        obj.image = `http://192.168.100.8:5000/${obj.image}`
+        console.log(obj.image)
+        if(obj.image.startsWith("https")){
+          obj.image = obj.image
+        }else{
+          obj.image = `http://192.168.100.8:5000/${obj.image}`
+        }
         obj.image = obj.image.replace('\\', '/')
       }
       return obj
@@ -115,7 +120,7 @@ const searchHistory = (req, res) => {
   const {
     historyId
   } = req.params
-  favoriteModel.searchHistory(historyId, results => {
+  myHistoryeModel.searchHistory(historyId, results => {
     if (results.length > 0) {
       return res.json({
         success: true,

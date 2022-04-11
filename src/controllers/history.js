@@ -48,7 +48,13 @@ const myHistories = async (req, res) => {
     const results = await historyModel.getHistoriesAsync(userId);
     const processedResult = results.map((obj) => {
       if (obj.image !== null) {
-        obj.image = `${APP_URL}/${obj.image}`
+        console.log(obj.image)
+        if(obj.image.startsWith("https")){
+          obj.image = obj.image
+        }else{
+          obj.image = `http://192.168.100.8:5000/${obj.image}`
+        }
+        obj.image = obj.image.replace('\\', '/')
       }
       return obj
     })

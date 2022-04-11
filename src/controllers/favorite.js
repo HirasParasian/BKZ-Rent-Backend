@@ -129,7 +129,12 @@ const getMyFavorite = async (req, res) => {
     const count = await favoriteModel.countMyFavoriteAsync(userId)
     const processedResult = results.map((obj) => {
       if (obj.image !== null) {
-        obj.image = `http://192.168.100.8:5000/${obj.image}`
+        console.log(obj.image)
+        if(obj.image.startsWith("https")){
+          obj.image = obj.image
+        }else{
+          obj.image = `http://192.168.100.8:5000/${obj.image}`
+        }
         obj.image = obj.image.replace('\\', '/')
       }
       return obj

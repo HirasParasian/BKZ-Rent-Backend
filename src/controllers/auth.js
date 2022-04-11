@@ -143,7 +143,7 @@ exports.emailVerify = async (req, res) => {
         return response(res, "Unexpected Error", null, 500)
       }
     } else {
-      return response(res, "No Email Detected", null, 403)
+      return response(res, "Wrong Email Detected", null, 403)
     }
   } else {
     if (email) {

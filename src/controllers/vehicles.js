@@ -10,21 +10,29 @@ const { deleteFile } = require('../helpers/fileHandler');
 
 // READ VEHICLES
 const readVehicles = async (req, res) => {
-  let { search, page, limit, sort, order, category, vehicleId } = req.query
+  let { search, page, limit, sort, order, category, vehicleId,minPrice,maxPrice,location } = req.query
   sort = sort || "name"
-  order = order || "DESC"
+  order = order || "ASC"
   search = search || ""
   category = category || ""
+  minPrice = minPrice || 0
+  maxPrice = maxPrice || 9999999
+  location = location || ""
   page = ((page != null && page !== "") ? Number(page) : 1)
   limit = ((limit != null && limit !== "") ? Number(limit) : 4)
   let offset = (page - 1) * limit
-  const data = { search, limit, offset, sort, order, page, category, vehicleId }
+  const data = { search, limit, offset, sort, order, page, category, vehicleId, minPrice, maxPrice,location }
   if (validate.validationPageInfoAsync(data) == "") {
     const results = await vehicleModel.readVehiclesAsync(data)
     const count = await vehicleModel.countVehiclesAsync(data)
     const processedResult = results.map((obj) => {
       if (obj.image !== null) {
-        obj.image = `http://192.168.100.8:5000/${obj.image}`
+        // console.log(obj.image)
+        if(obj.image.startsWith("https")){
+          obj.image = obj.image
+        }else{
+          obj.image = `http://192.168.100.8:5000/${obj.image}`
+        }
         obj.image = obj.image.replace('\\', '/')
       }
       return obj
@@ -61,7 +69,12 @@ const getProductId = async (req, res) => {
   }
   const processedResult = checkProduct.map((obj) => {
     if (obj.image !== null) {
-      obj.image = `http://192.168.100.8:5000/${obj.image}`
+      // console.log(obj.image)
+      if(obj.image.startsWith("https")){
+        obj.image = obj.image
+      }else{
+        obj.image = `http://192.168.100.8:5000/${obj.image}`
+      }
       obj.image = obj.image.replace('\\', '/')
     }
     return obj

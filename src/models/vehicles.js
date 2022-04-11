@@ -16,7 +16,7 @@ exports.getProductById = (vehicleId) => new Promise((resolve, reject) => {
 exports.countVehiclesAsync = (data) => new Promise((resolve, reject) => {
   // const query = 
   db.query(`SELECT COUNT (*) as total FROM vehicles v JOIN category c on v.category = c.categoryId WHERE v.name LIKE "%${data.search}%" 
-  AND v.category LIKE '%${data.category}%'`, (err, res) => {
+  AND v.category LIKE '%${data.category}%'  AND v.price >= ${data.minPrice} AND v.price <= ${data.maxPrice} AND v.location LIKE "%${data.location}%"`, (err, res) => {
     if (err) reject(err)
     resolve(res)
     // console.log(query.sql)
@@ -24,13 +24,13 @@ exports.countVehiclesAsync = (data) => new Promise((resolve, reject) => {
 })
 
 exports.readVehiclesAsync = (data) => new Promise((resolve, reject) => {
-  // const query =
+  const query =
   db.query(`SELECT v.vehicleId, v.name, v.price, v.description, v.location, v.createdAt, c.name as category, v.stock, v.image 
             FROM vehicles v JOIN category c on v.category = c.categoryId WHERE v.name LIKE "%${data.search}%" 
-          AND v.category LIKE '%${data.category}%'  ORDER BY ${data.sort} ${data.order} LIMIT ${data.limit} OFFSET ${data.offset}`, (err, res) => {
+          AND v.category LIKE '%${data.category}%' AND v.price >= ${data.minPrice} AND v.price <= ${data.maxPrice} AND v.location LIKE "%${data.location}%" ORDER BY ${data.sort} ${data.order} LIMIT ${data.limit} OFFSET ${data.offset}`, (err, res) => {
     if (err) reject(err)
     resolve(res)
-    // console.log(query.sql)
+    console.log(query.sql)
   })
 })
 
