@@ -145,7 +145,7 @@ const searchRating = (req, res) => {
     if (results.length > 0) {
       return res.json({
         success: true,
-        message: "Detail History",
+        message: "Rating Generated",
         results: results[0],
 
       })
