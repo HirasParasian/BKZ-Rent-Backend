@@ -137,6 +137,27 @@ const searchHistory = (req, res) => {
   })
 }
 
+const searchRating = (req, res) => {
+  const {
+    vehicleId
+  } = req.params
+  myHistoryeModel.searchRating(vehicleId, results => {
+    if (results.length > 0) {
+      return res.json({
+        success: true,
+        message: "Detail History",
+        results: results[0],
+
+      })
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: "History not found"
+      })
+    }
+  })
+}
+
 const updateRating = (req, res) => {
   const update = {
     ...req.body
@@ -158,4 +179,5 @@ const updateRating = (req, res) => {
   })
 }
 
-module.exports = { getMyHistory,deleteHistory,searchHistory,updateRating };
+
+module.exports = { getMyHistory,deleteHistory,searchHistory,updateRating,searchRating };

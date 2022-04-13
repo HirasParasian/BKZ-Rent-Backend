@@ -39,6 +39,13 @@ exports.searchHistory = (historyId, cb) => {
   })
 }
 
+exports.searchRating = (vehicleId, cb) => {
+  db.query("SELECT AVG(rating) as vehicleRating FROM `history` WHERE vehicleId=?;", [vehicleId], (err, res) => {
+    if (err) throw err
+    cb(res)
+  })
+}
+
 exports.searchHistoryAsync = (historyId) => new Promise((resolve, reject) => {
   // const query = 
   db.query(`SELECT * FROM history WHERE historyId = ${historyId}`, (err, res) => {
@@ -54,3 +61,6 @@ exports.updateRating = ( data, historyId, cb) => {
     cb(res)
   })
 }
+
+// SELECT AVG(rating) FROM `history` WHERE vehicleId=78; For GET Rating vehicles
+// SELECT historyId,rating FROM `history` WHERE historyId = 43  for GET rating history
