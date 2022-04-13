@@ -159,6 +159,8 @@ const createHistory = (req, res) => {
   }
 }
 
+
+
 const updateHistory = (req, res) => {
   const { historyId } = req.params
   if (historyId !== " ") {
