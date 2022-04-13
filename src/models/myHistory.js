@@ -7,7 +7,7 @@ exports.getMyHistoryAsync = (userId,data) => new Promise((resolve, reject) => {
   AS prepayment,c.name AS category,v.price AS price,h.rentStartDate,h.rentEndDate,
   DATEDIFF(h.rentEndDate, h.rentStartDate)AS days ,v.price * DATEDIFF(h.rentEndDate, 
   h.rentStartDate) AS totalPrice FROM history h JOIN vehicles v on h.vehicleId = v.vehicleId 
-  JOIN category c on v.category = c.categoryId WHERE h.userId = ${userId} ORDER BY createdAt DESC
+  JOIN category c on v.category = c.categoryId WHERE h.userId = ${userId} ORDER BY h.createdAt DESC
   LIMIT ${data.limit} OFFSET ${data.offset}  `, [userId,data], (err, res) => {
     if (err) reject(err);
     resolve(res);
