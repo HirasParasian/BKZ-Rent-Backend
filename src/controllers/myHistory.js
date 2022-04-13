@@ -136,4 +136,26 @@ const searchHistory = (req, res) => {
     }
   })
 }
-module.exports = { getMyHistory,deleteHistory,searchHistory };
+
+const updateRating = (req, res) => {
+  const update = {
+    ...req.body
+  }
+  const { historyId } = req.params
+  console.log(historyId)
+  myHistoryeModel.updateRating(update, historyId, results => {
+    if (results.changedRows > 0) {
+      return res.json({
+        success: true,
+        message: "Rating Created"
+      })
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: "Failed to Change"
+      })
+    }
+  })
+}
+
+module.exports = { getMyHistory,deleteHistory,searchHistory,updateRating };

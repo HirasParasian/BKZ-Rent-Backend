@@ -38,3 +38,19 @@ exports.searchHistory = (historyId, cb) => {
     cb(res)
   })
 }
+
+exports.searchHistoryAsync = (historyId) => new Promise((resolve, reject) => {
+  // const query = 
+  db.query(`SELECT * FROM history WHERE historyId = ${historyId}`, (err, res) => {
+    if (err) reject(err)
+    resolve(res)
+    // console.log(query.sql)
+  })
+})
+
+exports.updateRating = ( data, historyId, cb) => {
+  db.query(`UPDATE history SET rating = ${data.rating} WHERE historyId = ${historyId}`, [data, historyId], (err, res) => {
+    if (err) throw err
+    cb(res)
+  })
+}
