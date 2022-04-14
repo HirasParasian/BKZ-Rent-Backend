@@ -51,7 +51,7 @@ const readVehicles = async (req, res) => {
     }
     return response(res, "List Vehicle Not Found", null, 404)
   } else {
-    return response(res, "List Vehicle", null, 200, null, validate.validationPageInfoAsync(data))
+    return response(res, "List ERROR", null, 400, null, validate.validationPageInfoAsync(data))
   }
 
 }
@@ -135,7 +135,7 @@ const createVehicles = async (req, res) => {
           }
         })
       } else {
-        return response(res, "Data Vehicle was not valid", null, 200, null, validate.validateVehicles(newData))
+        return response(res, "Data Vehicle was not valid", null, 400, null, validate.validateVehicles(newData))
       }
     })
 }
