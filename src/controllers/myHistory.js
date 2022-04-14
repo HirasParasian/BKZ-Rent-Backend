@@ -121,11 +121,23 @@ const searchHistory = (req, res) => {
     historyId
   } = req.params
   myHistoryeModel.searchHistory(historyId, results => {
+    const processedResult = results.map((obj) => {
+      if (obj.image !== null) {
+        console.log(obj.image)
+        if(obj.image.startsWith("https")){
+          obj.image = obj.image
+        }else{
+          obj.image = `http://192.168.100.8:5000/${obj.image}`
+        }
+        obj.image = obj.image.replace('\\', '/')
+      }
+      return obj
+    })
     if (results.length > 0) {
       return res.json({
         success: true,
         message: "Detail History",
-        results: results[0],
+        results: processedResult[0],
 
       })
     } else {
