@@ -2,7 +2,7 @@ const response = require("../helpers/response")
 const myHistoryeModel = require('../models/myHistory');
 const validate = require("../helpers/validate")
 const jwt_decode = require("jwt-decode");
-const { APP_URL } = process.env
+const { APP_URL,APP_TEST_URL } = process.env
 
 const getMyHistorys = async (req, res) => {
   try {
@@ -28,8 +28,8 @@ const getMyHistorys = async (req, res) => {
     console.log(total)
     const last = Math.ceil(total / limit)
     // const pageInfo = {
-    //   // prev: page > 1 ? `http://localhost:5000/vehicles?search=${search}&category=${category}&page=${page - 1}&limit=${limit}&sort=${sort}` : null,
-    //   // next: page < last ? `http://localhost:5000/vehicles?search=${search}&category=${category}&page=${page + 1}&limit=${limit}&sort=${sort}` : null,
+    //   // prev: page > 1 ? `${APP_URL}/vehicles?search=${search}&category=${category}&page=${page - 1}&limit=${limit}&sort=${sort}` : null,
+    //   // next: page < last ? `${APP_URL}/vehicles?search=${search}&category=${category}&page=${page + 1}&limit=${limit}&sort=${sort}` : null,
     //   // totalData: total,
     //   // currentPage: page,
     //   // lastPage: last
@@ -65,7 +65,8 @@ const getMyHistory = async (req, res) => {
         if(obj.image.startsWith("https")){
           obj.image = obj.image
         }else{
-          obj.image = `http://192.168.100.8:5000/${obj.image}`
+          obj.image = `${APP_URL}/${obj.image}`
+          console.log(APP_URL)
         }
         obj.image = obj.image.replace('\\', '/')
       }
@@ -74,8 +75,8 @@ const getMyHistory = async (req, res) => {
     const { total } = count[0]
     const last = Math.ceil(total / limit)
     const pageInfo = {
-      prev: page > 1 ? `http://localhost:5000/history?page=${page - 1}&limit=${limit}&search=${search}` : null,
-      next: page < last ? `http://localhost:5000/history?page=${page + 1}&limit=${limit}&search=${search}` : null,
+      prev: page > 1 ? `${APP_URL}/history?page=${page - 1}&limit=${limit}&search=${search}` : null,
+      next: page < last ? `${APP_URL}/history?page=${page + 1}&limit=${limit}&search=${search}` : null,
       totalData: total,
       currentPage: page,
       lastPage: last
@@ -127,7 +128,7 @@ const searchHistory = (req, res) => {
         if(obj.image.startsWith("https")){
           obj.image = obj.image
         }else{
-          obj.image = `http://192.168.100.8:5000/${obj.image}`
+          obj.image = `${APP_URL}/${obj.image}`
         }
         obj.image = obj.image.replace('\\', '/')
       }

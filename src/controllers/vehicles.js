@@ -40,8 +40,8 @@ const readVehicles = async (req, res) => {
     const { total } = count[0]
     const last = Math.ceil(total / limit)
     const pageInfo = {
-      prev: page > 1 ? `http://localhost:5000/vehicles?search=${search}&category=${category}&page=${page - 1}&limit=${limit}&sort=${sort}` : null,
-      next: page < last ? `http://localhost:5000/vehicles?search=${search}&category=${category}&page=${page + 1}&limit=${limit}&sort=${sort}` : null,
+      prev: page > 1 ? `${APP_URL}/vehicles?search=${search}&category=${category}&page=${page - 1}&limit=${limit}&sort=${sort}` : null,
+      next: page < last ? `${APP_URL}/vehicles?search=${search}&category=${category}&page=${page + 1}&limit=${limit}&sort=${sort}` : null,
       totalData: total,
       currentPage: page,
       lastPage: last
@@ -274,8 +274,8 @@ const popularInTownVehicles = (req, res) => {
           message: "List Vehicles",
           results: processedResult,
           pageInfo: {
-            prev: page > 1 ? `http://localhost:5000/vehicles/popularintown?search=&location=&page=${page - 1}` : null,
-            next: page < last ? `http://localhost:5000/vehicles/popularintown?search=&location=&page=${page + 1}` : null,
+            prev: page > 1 ? `${APP_URL}/vehicles/popularintown?search=&location=&page=${page - 1}` : null,
+            next: page < last ? `${APP_URL}/vehicles/popularintown?search=&location=&page=${page + 1}` : null,
             totalData: total,
             currentPage: page,
             lastPage: last
@@ -307,8 +307,8 @@ const newVehiclesinWeek = (req, res) => {
           message: "List Vehicles",
           results: results,
           pageInfo: {
-            prev: page > 1 ? `http://localhost:5000/vehicles?page=${page - 1}` : null,
-            next: page < last ? `http://localhost:5000/vehicles?page=${page + 1}` : null,
+            prev: page > 1 ? `${APP_URL}/vehicles?page=${page - 1}` : null,
+            next: page < last ? `${APP_URL}/vehicles?page=${page + 1}` : null,
             totalData: total,
             currentPage: page,
             lastPage: last

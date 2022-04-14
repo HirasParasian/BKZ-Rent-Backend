@@ -29,8 +29,8 @@ const readUsers = (req, res) => {
           message: "List User",
           results: processedResult,
           pageInfo: {
-            prev: page > 1 ? `http://localhost:5000/users?page=${page - 1}&limit=${limit}` : null,
-            next: page < last ? `http://localhost:5000/users?page=${page + 1}&limit=${limit}` : null,
+            prev: page > 1 ? `${APP_URL}/users?page=${page - 1}&limit=${limit}` : null,
+            next: page < last ? `${APP_URL}/users?page=${page + 1}&limit=${limit}` : null,
             totalData: total,
             currentPage: page,
             lastPage: last

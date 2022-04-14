@@ -133,7 +133,7 @@ const getMyFavorite = async (req, res) => {
         if(obj.image.startsWith("https")){
           obj.image = obj.image
         }else{
-          obj.image = `http://192.168.100.8:5000/${obj.image}`
+          obj.image = `${APP_URL}/${obj.image}`
         }
         obj.image = obj.image.replace('\\', '/')
       }
@@ -142,8 +142,8 @@ const getMyFavorite = async (req, res) => {
     const { total } = count[0]
     const last = Math.ceil(total / limit)
     const pageInfo = {
-      prev: page > 1 ? `http://localhost:5000/favorite/my-favorite?page=${page - 1}&limit=${limit}&search=${search}` : null,
-      next: page < last ? `http://localhost:5000/favorite/my-favorite?page=${page + 1}&limit=${limit}&search=${search}` : null,
+      prev: page > 1 ? `${APP_URL}/favorite/my-favorite?page=${page - 1}&limit=${limit}&search=${search}` : null,
+      next: page < last ? `${APP_URL}/favorite/my-favorite?page=${page + 1}&limit=${limit}&search=${search}` : null,
       totalData: total,
       currentPage: page,
       lastPage: last

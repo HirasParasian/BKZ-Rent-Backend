@@ -26,8 +26,8 @@ const readHistory = (req, res) => {
           message: "List History",
           results: processedResult,
           pageInfo: {
-            prev: page > 1 ? `http://localhost:5000/history?page=${page - 1}&limit=${limit}&search=${search}` : null,
-            next: page < last ? `http://localhost:5000/history?page=${page + 1}&limit=${limit}&search=${search}` : null,
+            prev: page > 1 ? `${APP_URL}/history?page=${page - 1}&limit=${limit}&search=${search}` : null,
+            next: page < last ? `${APP_URL}/history?page=${page + 1}&limit=${limit}&search=${search}` : null,
             totalData: total,
             currentPage: page,
             lastPage: last
@@ -52,7 +52,7 @@ const myHistories = async (req, res) => {
         if(obj.image.startsWith("https")){
           obj.image = obj.image
         }else{
-          obj.image = `http://192.168.100.8:5000/${obj.image}`
+          obj.image = `${APP_URL}/${obj.image}`
         }
         obj.image = obj.image.replace('\\', '/')
       }
@@ -93,8 +93,8 @@ const myHistory = (req, res) => {
           message: "List History",
           results: processedResult,
           pageInfo: {
-            prev: page > 1 ? `http://localhost:5000/history?page=${page - 1}&limit=${limit}` : null,
-            next: page < last ? `http://localhost:5000/history?page=${page + 1}&limit=${limit}` : null,
+            prev: page > 1 ? `${APP_URL}/history?page=${page - 1}&limit=${limit}` : null,
+            next: page < last ? `${APP_URL}/history?page=${page + 1}&limit=${limit}` : null,
             totalData: total,
             currentPage: page,
             lastPage: last
@@ -259,8 +259,8 @@ const readHistorybyName = (req, res) => {
           message: "List History",
           results,
           pageInfo: {
-            prev: page > 1 ? `http://localhost:5000/vehicles?page=${page - 1}` : null,
-            next: page < last ? `http://localhost:5000/vehicles?page=${page + 1}` : null,
+            prev: page > 1 ? `${APP_URL}/vehicles?page=${page - 1}` : null,
+            next: page < last ? `${APP_URL}/vehicles?page=${page + 1}` : null,
             totalData: total,
             currentPage: page,
             lastPage: last
