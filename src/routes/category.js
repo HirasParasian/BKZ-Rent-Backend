@@ -1,4 +1,5 @@
 const category = require("express").Router()
+const cors = require('cors');
 
 const { readCategory,
   searchCategory,
@@ -7,11 +8,11 @@ const { readCategory,
   deleteCategory
 } = require("../controllers/category")
 
-category.get("/", readCategory)
-category.get("/:categoryId", searchCategory)
-category.post("/create", createCategory)
-category.patch("/update/:categoryId", updateCategory)
-category.delete("/delete/:categoryId", deleteCategory)
+category.get("/",cors(), readCategory)
+category.get("/:categoryId",cors(), searchCategory)
+category.post("/create",cors(), createCategory)
+category.patch("/update/:categoryId",cors(), updateCategory)
+category.delete("/delete/:categoryId",cors(), deleteCategory)
 
 
 module.exports = category

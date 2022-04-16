@@ -3,6 +3,7 @@ const { verifyUser } = require("../helpers/auth")
 const uploadImage = require('../helpers/uploads');
 const multer = require("multer")
 const upload = multer({ dest: "uploads/vehicles/" })
+const cors = require('cors');
 
 const {
   readVehicles,
@@ -18,16 +19,16 @@ const {
   editProduct
 } = require("../controllers/vehicles")
 
-vehicles.get("/", readVehicles)
-vehicles.get("/", searchVehicles)
-vehicles.get('/search/:vehicleId', getProductId);
-vehicles.post("/create", verifyUser, uploadImage('image'), addVehicles)
-vehicles.post("/", verifyUser, uploadImage('image'), createVehicles)
-vehicles.patch("/edit/:vehicleId", verifyUser, uploadImage('image'), editProduct)
-vehicles.delete("/:vehicleId", verifyUser, deleteVehicles)
-vehicles.get("/popular", popularVehicles)
-vehicles.get("/popularintown", popularInTownVehicles)
-vehicles.get("/lastweekvehicles", newVehiclesinWeek)
+vehicles.get("/", cors(), readVehicles)
+vehicles.get("/", cors(), searchVehicles)
+vehicles.get('/search/:vehicleId', cors(), getProductId);
+vehicles.post("/create", cors(), verifyUser, uploadImage('image'), addVehicles)
+vehicles.post("/", verifyUser, cors(), uploadImage('image'), createVehicles)
+vehicles.patch("/edit/:vehicleId", cors(), verifyUser, uploadImage('image'), editProduct)
+vehicles.delete("/:vehicleId", cors(), verifyUser, deleteVehicles)
+vehicles.get("/popular", cors(), popularVehicles)
+vehicles.get("/popularintown", cors(), popularInTownVehicles)
+vehicles.get("/lastweekvehicles", cors(), newVehiclesinWeek)
 
 
 module.exports = vehicles

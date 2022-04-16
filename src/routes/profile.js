@@ -3,12 +3,13 @@ const { getProfile, updateProfile,patchProfile,updatesProfile } = require('../co
 const { verify } = require('../helpers/auth');
 const { verifyUser } = require('../helpers/auth');
 const uploadImage = require('../helpers/uploader');
+const cors = require('cors');
 
 
 
-profile.get('/', verifyUser, getProfile);
-profile.patch('/',verifyUser, updateProfile);
-profile.patch('/update',verifyUser, uploadImage('images'), updatesProfile);
+profile.get('/', verifyUser,cors(), getProfile);
+profile.patch('/',cors(),verifyUser, updateProfile);
+profile.patch('/update',cors(),verifyUser, uploadImage('images'), updatesProfile);
 // vehicles.patch("/edit/:vehicleId", verifyUser, uploadImage('image'), editProduct)
 
 module.exports = profile;

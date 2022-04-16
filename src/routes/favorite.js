@@ -1,6 +1,7 @@
 const favorite = require("express").Router()
 const { verify } = require('../helpers/auth');
 const { verifyUser } = require('../helpers/auth');
+const cors = require('cors');
 
 const {
   createFavorite,
@@ -10,11 +11,11 @@ const {
   getMyFavorite
 } = require("../controllers/favorite")
 
-favorite.post("/", createFavorite)
-favorite.get("/search/:id", searchFavorite)
-favorite.get("/",verify, getFavorite)
-favorite.get("/my-favorite",verify, getMyFavorite)
-favorite.delete("/:id", deleteFavorite)
+favorite.post("/",cors(), createFavorite)
+favorite.get("/search/:id",cors(), searchFavorite)
+favorite.get("/",verify,cors(), getFavorite)
+favorite.get("/my-favorite",cors(),verify, getMyFavorite)
+favorite.delete("/:id",cors(), deleteFavorite)
 
 
 

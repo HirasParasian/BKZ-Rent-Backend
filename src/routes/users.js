@@ -1,5 +1,6 @@
 const users = require("express").Router()
 const { verifyUser } = require('../helpers/auth');
+const cors = require('cors');
 
 const { readUsers,
   searchUsers,
@@ -11,13 +12,13 @@ const { readUsers,
 } = require("../controllers/users")
 const {getProfiles}= require("../controllers/profile")
 
-users.get("/", readUsers)
-users.get("/:userId", searchUsers)
-users.post("/", createUsers)
-users.post("/register", register)
-users.patch("/:userId", updateUsers)
-users.delete("/:userId", deleteUsers)
-users.get("/profile",verifyUser, getProfiles)
+users.get("/",cors(), readUsers)
+users.get("/:userId",cors(), searchUsers)
+users.post("/",cors(), createUsers)
+users.post("/register",cors(), register)
+users.patch("/:userId",cors(), updateUsers)
+users.delete("/:userId",cors(), deleteUsers)
+users.get("/profile",cors(),verifyUser, getProfiles)
 
 
 module.exports = users

@@ -1,4 +1,5 @@
 const history = require("express").Router()
+const cors = require('cors');
 
 const { readHistory,
   searchHistory,
@@ -8,12 +9,12 @@ const { readHistory,
   myHistory
 } = require("../controllers/history")
 
-history.get("/", readHistory)
-history.get("/byname/", searchHistory)
-history.get("/my-history", myHistory)
-history.post("/", createHistory)
-history.patch("/:historyId", updateHistory)
-history.delete("/:historyId", deleteHistory)
+history.get("/",cors(), readHistory)
+history.get("/byname/",cors(), searchHistory)
+history.get("/my-history",cors(), myHistory)
+history.post("/",cors(), createHistory)
+history.patch("/:historyId",cors(), updateHistory)
+history.delete("/:historyId",cors(), deleteHistory)
 
 
 module.exports = history

@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(require("./src/routes"))
 app.use("/uploads", express.static("uploads"))
 const corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: ["http://localhost:3000", "http://localhost:8081"] 
 };
 const { PORT, APP_PORT } = process.env
 app.options('*', cors(corsOptions));
