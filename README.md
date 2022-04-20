@@ -90,6 +90,12 @@ git clone https://github.com/HirasParasian/BKZ-Rent-Backend/
 ```
 npm install
 ```
+
+- Start Backend
+
+```
+npm run dev
+```
 ---------------------------------------------------------------
 - Clone and Install Repo Web or Mobile
 ---------------------------------------------------------------
