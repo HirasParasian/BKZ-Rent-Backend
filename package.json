@@ -1,6 +1,9 @@
 {
   "name": "fw5-backend-beginerr2",
   "version": "1.0.0",
+  "engines": {
+    "node": "16.x"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
