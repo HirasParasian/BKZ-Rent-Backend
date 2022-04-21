@@ -1,7 +1,8 @@
-const express = require("express") //ambil package express
+const express = require("express") 
 require("dotenv").config()
 const app = express()
 const cors = require('cors');
+const responseHandler = require('./src/helpers/responseHandler');
 
 app.use(express.urlencoded({ extended: true }))
 
@@ -10,6 +11,15 @@ app.use("/uploads", express.static("uploads"))
 const corsOptions = {
   origin: ["http://localhost:3000", "http://localhost:8081"] 
 };
+
+const httpMethods = ['get', 'post', 'put', 'patch', 'delete'];
+
+httpMethods.forEach((el)=>{
+	app[el]('*', (req, res) =>{
+		return responseHandler(res, 404, 'Destination not found');
+	});
+});
+
 const { PORT, APP_PORT } = process.env
 app.options('*', cors(corsOptions));
 app.listen(PORT || APP_PORT, () => {
