@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "eslint": "^8.7.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "ws": "3.3.2"
   }
 }

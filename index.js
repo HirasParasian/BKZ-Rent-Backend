@@ -20,8 +20,8 @@ httpMethods.forEach((el)=>{
 	});
 });
 
-const { APP_PORT } = process.env
+const { APP_PORT, PORT } = process.env
 app.options('*', cors(corsOptions));
-app.listen(process.env.PORT || APP_PORT, () => {
-  console.log(`App listening on port ${process.env.PORT || APP_PORT}`)
+app.listen(PORT || APP_PORT, () => {
+  console.log(`App listening on port ${PORT || APP_PORT}`)
 })
